@@ -34,7 +34,7 @@
               ></v-text-field>
             </validation-provider>
             <div class="text-center">
-              <v-btn class="signin-btn" type="submit" rounded color="white">
+              <v-btn class="signin-btn" type="submit" rounded color="white" @click="showToast">
                 Sign In
               </v-btn>
             </div>
@@ -99,6 +99,9 @@ export default {
         this.email = '',
         this.password = null,
         this.$refs.observer.reset()
+    },
+    showToast() {
+      this.$root.vtoast.show('test message');
     }
   }
 };

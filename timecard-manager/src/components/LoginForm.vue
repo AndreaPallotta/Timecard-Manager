@@ -1,57 +1,42 @@
 <template>
-  <section class="section-container">
-    <v-row class="signin">
-      <v-col cols="8" class="left">
-        <h1>Welcome!</h1>
-      </v-col>
-      <v-col cols="4" class="right">
-        <h2>LOGIN</h2>
-        <validation-observer ref="observer">
-          <v-form @submit.prevent="submit">
-            <validation-provider v-slot="{ errors }" name="email" rules="required|email" class="required-form-field">
-              <v-text-field
-                v-model="email"
-                :error-messages="errors"
-                :prepend-inner-icon="'mdi-account'"
-                label="Email"
-                required
-                outlined
-                dark
-              ></v-text-field>
-            </validation-provider>
-            <validation-provider v-slot="{ errors }" name="password" rules="required" class="required-form-field">
-              <v-text-field
-                v-model="password"
-                :error-messages="errors"
-                label="Password"
-                :prepend-inner-icon="'mdi-lock'"
-                :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                @click:append="showPass = !showPass"
-                required
-                outlined
-                dark
-                :type="showPass ? 'text' : 'password'"
-              ></v-text-field>
-            </validation-provider>
-            <div class="text-center">
-              <v-btn class="signin-btn" type="submit" rounded color="white" @click="showToast">
-                Sign In
-              </v-btn>
-            </div>
-          </v-form>
-        </validation-observer>
-      </v-col>
-    </v-row>
-  </section>
+  <v-col cols="4" class="right">
+    <h2>SIGN IN</h2>
+    <validation-observer ref="observer">
+    <v-form @submit.prevent="submit">
+      <validation-provider v-slot="{ errors }" name="email" rules="required|email" class="required-form-field">
+        <v-text-field
+        v-model="email"
+        :error-messages="errors"
+        :prepend-inner-icon="'mdi-account'"
+        label="Email"
+        required
+        outlined
+        dark
+        ></v-text-field>
+      </validation-provider>
+      <validation-provider v-slot="{ errors }" name="password" rules="required" class="required-form-field">
+        <v-text-field
+        v-model="password"
+        :error-messages="errors"
+        label="Password"
+        :prepend-inner-icon="'mdi-lock'"
+        :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append="showPass = !showPass"
+        required
+        outlined
+        dark
+        :type="showPass ? 'text' : 'password'"
+        ></v-text-field>
+      </validation-provider>
+      <div class="text-center">
+        <v-btn class="auth-btn" type="submit" rounded color="white">
+        Sign In
+        </v-btn>
+      </div>
+    </v-form>
+    </validation-observer>
+  </v-col>
 </template>
-
-<style>
-.required-form-field.error--text,
-.required-form-field .error--text {
-  color: #9c2010 !important;
-  caret-color: #9c2010 !important;
-}
-</style>
 
 <script>
 import { required, email } from 'vee-validate/dist/rules';
@@ -100,9 +85,33 @@ export default {
         this.password = null,
         this.$refs.observer.reset()
     },
-    showToast() {
+    login({ email, password }) {
+      console.log(email, password);
       this.$root.vtoast.show('test message');
     }
   }
 };
 </script>
+
+
+<style lang="scss" scoped>
+.required-form-field.error--text,
+.required-form-field .error--text {
+  color: #9c2010 !important;
+  caret-color: #9c2010 !important;
+}
+.right {
+  padding: 30px;
+  box-sizing: border-box;
+  background: #30ac7c;
+  color: #fff;
+  h2 {
+    text-align: center;
+    margin: 30px 0;
+  }
+  .auth-btn {
+      width: 100%;
+      color: #30ac7c;
+  }
+}
+</style>

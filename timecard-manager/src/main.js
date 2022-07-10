@@ -2,7 +2,6 @@ import Vue from 'vue';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import router from './routes/router';
-import './assets/styles.scss';
 
 Vue.config.productionTip = false;
 

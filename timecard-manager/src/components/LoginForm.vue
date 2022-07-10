@@ -88,6 +88,7 @@ export default {
     login({ email, password }) {
       console.log(email, password);
       this.$root.vtoast.show('test message');
+      this.$emit('')
     }
   }
 };

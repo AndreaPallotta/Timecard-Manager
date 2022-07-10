@@ -11,18 +11,18 @@
           </v-btn>
           <span>Now</span>
           <v-sparkline
-    :value="value"
-    :gradient="gradient"
-    :smooth="radius || false"
-    :padding="padding"
-    :line-width="width"
-    :stroke-linecap="lineCap"
-    :gradient-direction="gradientDirection"
-    :fill="fill"
-    :type="type"
-    :auto-line-width="autoLineWidth"
-    auto-draw
-  ></v-sparkline>
+            :value="value"
+            :gradient="gradient"
+            :smooth="radius || false"
+            :padding="padding"
+            :line-width="width"
+            :stroke-linecap="lineCap"
+            :gradient-direction="gradientDirection"
+            :fill="fill"
+            :type="type"
+            :auto-line-width="autoLineWidth"
+            auto-draw
+          ></v-sparkline>
         </div>
       </v-col>
       <LoginForm v-if="showLogin"></LoginForm>
@@ -36,6 +36,19 @@
             Sign In
           </v-btn>
           <span>Here</span>
+          <v-sparkline
+            :value="value"
+            :gradient="gradient"
+            :smooth="radius || false"
+            :padding="padding"
+            :line-width="width"
+            :stroke-linecap="lineCap"
+            :gradient-direction="gradientDirection"
+            :fill="fill"
+            :type="type"
+            :auto-line-width="autoLineWidth"
+            auto-draw
+          ></v-sparkline>
         </div>
       </v-col>
     </v-row>

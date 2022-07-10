@@ -2,10 +2,10 @@
   <v-col cols="4" class="right">
     <h2>SIGN IN</h2>
     <validation-observer ref="observer">
-    <v-form @submit.prevent="submit">
+    <v-form @submit.prevent="handleLogin">
       <validation-provider v-slot="{ errors }" name="email" rules="required|email" class="required-form-field">
         <v-text-field
-        v-model="email"
+        v-model="user.email"
         :error-messages="errors"
         :prepend-inner-icon="'mdi-account'"
         label="Email"
@@ -14,9 +14,9 @@
         dark
         ></v-text-field>
       </validation-provider>
-      <validation-provider v-slot="{ errors }" name="password" rules="required" class="required-form-field">
+      <validation-provider v-slot="{ errors }" name="password" rules="required|password" class="required-form-field">
         <v-text-field
-        v-model="password"
+        v-model="user.password"
         :error-messages="errors"
         label="Password"
         :prepend-inner-icon="'mdi-lock'"
@@ -39,20 +39,10 @@
 </template>
 
 <script>
-import { required, email } from 'vee-validate/dist/rules';
-import { extend, ValidationProvider, setInteractionMode, ValidationObserver } from 'vee-validate';
+import { ValidationProvider, setInteractionMode, ValidationObserver } from 'vee-validate';
+import User from '@/models/user';
 
 setInteractionMode('eager');
-
-extend('required', {
-    ...required,
-    message: '{_field_} cannot be empty'
-})
-
-extend('email', {
-    ...email,
-    message: 'Email is invalid'
-})
 
 export default {
   name: 'LoginForm',
@@ -61,34 +51,33 @@ export default {
     ValidationObserver
   },
   data: () => ({
-    email: '',
-    password: null,
+    user: new User(),
+    loading: false,
     showPass: false
   }),
   computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
     params() {
         return {
-            email: this.email,
-            password: this.password
+            email: this.user.email,
+            password: this.user.password
         }
     }
   },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push('/home')
+    }
+  },
   methods: {
-    async submit() {
-        const valid = await this.$refs.observer.validate();
-        if (valid) {
-            this.login(this.params);
-        }
-    },
-    clear() {
-        this.email = '',
-        this.password = null,
-        this.$refs.observer.reset()
-    },
-    login({ email, password }) {
-      console.log(email, password);
-      this.$root.vtoast.show('test message');
-      this.$emit('')
+    async handleLogin() {
+      // const isFormValid = await this.$refs.observer.validate();
+      const res = await this.$store.dispatch('auth/login', { email: 'test', password: 'test' });
+      if (res.ErrorMsg) {
+        this.$root.vtoast.show(res.ErrorMsg, 'error');
+      }
     }
   }
 };

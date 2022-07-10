@@ -10,6 +10,7 @@ const Logger = require('./utils/logger');
 const morganMiddleware = require('./utils/morganConfig');
 
 const devRoutes = require('./endpoints/dev/dev.routes');
+const authRoutes = require('./endpoints/auth/auth.routes');
 
 const { HOSTNAME, PORT } = expressConfig;
 
@@ -23,20 +24,7 @@ app.use(helmet());
 app.use(cors());
 app.use(morganMiddleware);
 app.use('/dev', devRoutes);
-
-app.get('/error', async (req, res, next) => {
-  const { title, author } = req.body;
-
-  try {
-    if (!title || !author) {
-      throw new BadRequest('Missing required fields: title or author');
-    }
-    const post = await db.post.insert({ title, author });
-    res.json(post);
-  } catch (err) {
-    next(err);
-  }
-});
+app.use('/auth', authRoutes);
 
 app.options('*', (_, res) => {
   res.send(200);

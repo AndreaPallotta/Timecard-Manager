@@ -1,12 +1,12 @@
-import { nullCheck } from '@/constants/env';
+import { nullSafe } from '@/constants/env';
 import authService from '@/services/auth.service';
 
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = {
   status: {
-    loggedIn: nullCheck(user) ? true : false,
+    loggedIn: nullSafe(user) ? true : false,
   },
-  user: nullCheck(user) ? user : null,
+  user: nullSafe(user) ? user : null,
 };
 
 export const auth = {
@@ -15,12 +15,12 @@ export const auth = {
   actions: {
     async login({ commit }, user) {
       const res = await authService.login(user);
-      commit(res.Error ? 'loginFailure' : 'loginSuccess', user);
+      commit(res.ErrorMsg ? 'loginFailure' : 'loginSuccess', user);
       return res;
     },
     async signup({ commit }, user) {
       const res = await authService.signup(user);
-      commit(res.Error ? 'registerFailure' : 'registerSuccess', user);
+      commit(res.ErrorMsg ? 'registerFailure' : 'registerSuccess', user);
       return res;
     },
     logout({ commit }) {

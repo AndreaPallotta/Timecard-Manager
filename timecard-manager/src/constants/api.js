@@ -1,5 +1,5 @@
 import getAuthHeader from '@/services/auth-header';
-import { isDev, nullCheck } from './env';
+import { isDev, nullSafe } from './env';
 
 export const API_URL = isDev
   ? 'http://localhost:8081'
@@ -17,8 +17,8 @@ export const formatEndpoint = (endpoint) => {
 };
 
 export const handleErrors = (res, data) => {
-  if (!res.ok || nullCheck(data)) {
-    throw new Error(`${res.status}: ${data?.message || res.statusText}`);
+  if (!res.ok || !nullSafe(data)) {
+    throw new Error(`(400) ${data?.Error || res.statusText}`);
   }
 };
 
@@ -52,7 +52,7 @@ class ApiHandler {
   static async post(endpoint, body, contentType) {
     const formattedEndpoint = formatEndpoint(endpoint);
     try {
-      const req = formatFetchReq('GET', body, contentType);
+      const req = formatFetchReq('POST', body, contentType);
       const res = await fetch(formattedEndpoint, req);
       const data = await res.json();
       handleErrors(res, data);

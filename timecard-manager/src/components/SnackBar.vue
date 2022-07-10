@@ -14,7 +14,7 @@ export default {
             message: '',
             color: 'success',
             icon: 'mdi-check',
-            timer: 2000
+            timer: 3000
         }
     },
     methods: {

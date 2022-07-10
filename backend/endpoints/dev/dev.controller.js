@@ -28,7 +28,6 @@ exports.getSysInfo = async (_, res, next) => {
         inOut: await netstat.inOut(),
       },
     };
-    console.log(info);
     res.send(info);
   } catch (err) {
     next(err);

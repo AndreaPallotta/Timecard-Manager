@@ -2,10 +2,10 @@
   <v-col cols="4" class="left">
     <h2>SIGN UP</h2>
     <validation-observer ref="observer">
-    <v-form @submit.prevent="submit">
+    <v-form @submit.prevent="handleSignUp">
       <validation-provider v-slot="{ errors }" name="firstName" rules="required" class="required-form-field">
         <v-text-field
-        v-model="firstName"
+        v-model="user.firstName"
         :error-messages="errors"
         label="First name"
         required
@@ -15,7 +15,7 @@
       </validation-provider>
       <validation-provider v-slot="{ errors }" name="lastName" rules="required" class="required-form-field">
         <v-text-field
-        v-model="lastName"
+        v-model="user.lastName"
         :error-messages="errors"
         label="Last name"
         required
@@ -25,7 +25,7 @@
       </validation-provider>
       <validation-provider v-slot="{ errors }" name="email" rules="required|email" class="required-form-field">
         <v-text-field
-        v-model="email"
+        v-model="user.email"
         :error-messages="errors"
         label="Email"
         required
@@ -33,9 +33,9 @@
         dark
         ></v-text-field>
       </validation-provider>
-      <validation-provider v-slot="{ errors }" name="password" rules="required" class="required-form-field">
+      <validation-provider v-slot="{ errors }" name="password" rules="required|password" class="required-form-field">
         <v-text-field
-        v-model="password"
+        v-model="user.password"
         :error-messages="errors"
         label="Password"
         :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
@@ -45,6 +45,7 @@
         dark
         :type="showPass ? 'text' : 'password'"
         ></v-text-field>
+        <password v-model="user.password" :strength-meter-only="true"></password>
       </validation-provider>
       <div class="text-center">
         <v-btn class="auth-btn" type="submit" rounded color="white">
@@ -57,59 +58,38 @@
 </template>
 
 <script>
-import { required, email } from 'vee-validate/dist/rules';
-import { extend, ValidationProvider, setInteractionMode, ValidationObserver } from 'vee-validate';
+import { ValidationProvider, setInteractionMode, ValidationObserver } from 'vee-validate';
+import Password from 'vue-password-strength-meter';
+import User from '@/models/user';
 
 setInteractionMode('eager');
-
-extend('required', {
-    ...required,
-    message: '{_field_} cannot be empty'
-})
-
-extend('email', {
-    ...email,
-    message: 'Email is invalid'
-})
 
 export default {
   name: 'SignUpForm',
   components: {
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
+    Password
   },
   data: () => ({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: null,
-    showPass: false,
+    user: new User(),
+    loading: false,
+    showPass: false
   }),
   computed: {
     params() {
         return {
-            firstName: this.firstName,
-            lastName: this.lastName,
-            email: this.email,
-            password: this.password
+            firstName: this.user.firstName,
+            lastName: this.user.lastName,
+            email: this.user.email,
+            password: this.user.password
         }
     }
   },
   methods: {
-    async submit() {
-        const valid = await this.$refs.observer.validate();
-        if (valid) {
-            this.signup(this.params);
-        }
-    },
-    clear() {
-        this.email = '',
-        this.password = null,
-        this.$refs.observer.reset()
-    },
-    signup({ firstName, lastName, email, password }) {
-      console.log(firstName, lastName, email, password);
-      this.$root.vtoast.show('test message');
+    async handleSignUp() {
+        const isFormValid = await this.$refs.observer.validate();
+        console.log(isFormValid);
     }
   }
 };

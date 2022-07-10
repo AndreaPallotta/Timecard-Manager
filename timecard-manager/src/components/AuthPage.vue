@@ -102,10 +102,13 @@ export default {
   padding: 20px;
   margin: 20px;
   background: #fff;
-  width: 100%;
+  max-width: 100%;
   box-shadow: 0 0 1px 1px rgba($color: #000000, $alpha: 0.1);
   box-sizing: border-box;
-  height: 100vh;
+  height: 90vh;
+  display: 'flex';
+  justify-content: 'center';
+  align-items: 'center';
   .auth_row {
     padding: 0;
     max-width: 1000px;

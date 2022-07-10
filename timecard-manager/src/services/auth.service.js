@@ -2,7 +2,7 @@ import ApiHandler from '@/constants/api';
 
 class AuthService {
   async login(user) {
-    const data = await ApiHandler.post('auth/signin', user);
+    const data = await ApiHandler.post('auth/login', user);
 
     if (data.accessToken) {
       localStorage.setItem('user', JSON.stringify(data));

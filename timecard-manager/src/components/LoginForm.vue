@@ -77,6 +77,8 @@ export default {
       const res = await this.$store.dispatch('auth/login', { email: 'test', password: 'test' });
       if (res.ErrorMsg) {
         this.$root.vtoast.show(res.ErrorMsg, 'error');
+      } else {
+        this.$router.push('/home')
       }
     }
   }

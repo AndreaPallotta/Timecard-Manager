@@ -1,6 +1,6 @@
 require('dotenv').config({ path: '.env.local' });
 
-const { NODE_ENV, PORT, HOST, LOG_LEVEL, SECRET } = process.env;
+const { NODE_ENV, PORT, HOST, LOG_LEVEL, SECRET, DB } = process.env;
 
 const isDev = (NODE_ENV || 'development') === 'development';
 
@@ -24,6 +24,7 @@ const getLogLevel = () => {
 
 exports.isDev = isDev;
 exports.expressConfig = expressConfig;
-exports.JWT_SECRET = SECRET
+exports.JWT_SECRET = SECRET;
+exports.DB_PATH = DB;
 exports.logging = logging;
 exports.getLogLevel = getLogLevel;

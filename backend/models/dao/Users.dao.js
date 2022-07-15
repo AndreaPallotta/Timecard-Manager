@@ -1,3 +1,6 @@
+const HTTPError = require('../../utils/HTTPError');
+const Logger = require('../../utils/logger');
+
 const tableFields = [
   {
     name: 'id',
@@ -21,6 +24,10 @@ const tableFields = [
     type: 'TEXT',
   },
   {
+    name: 'isAdmin',
+    type: 'BOOLEAN'
+  },
+  {
     name: 'accessToken',
     type: 'TEXT',
   },
@@ -35,17 +42,22 @@ const insertFields = [
   'last_name',
   'email',
   'password',
-  'accessToken',
-  'refreshToken',
+  'isAdmin',
 ];
 
 class UsersDAO {
   constructor(dao) {
     this.dao = dao;
+    this.create(dao);
   }
 
   create() {
-    return this.dao.createTable('users', tableFields);
+    try {
+      return this.dao.createTable('users', tableFields);
+    } catch (err) {
+      Logger.error(`Error creating table 'users': ${err}`);
+      return HTTPError.E500();
+    }
   }
 
   get(fields, whereFields, params) {
@@ -56,8 +68,13 @@ class UsersDAO {
     return this.dao.getAllFromTable('users', whereFields, params);
   }
 
-  insert(...values) {
-    return this.dao.insertIntoTable('users', insertFields, [...values]);
+  insert(user) {
+    try {
+      return this.dao.insertIntoTable('users', insertFields, user.toArray());
+    } catch (err) {
+      Logger.error(`Error inserting into table 'users': ${err}`);
+      return HTTPError.E500();
+    }
   }
 
   update(setFields, whereFields, values, extra) {

@@ -17,7 +17,7 @@ class DAO {
     return new Promise((resolve, reject) => {
       this.db.run(query, params, (err) => {
         if (err) {
-          Logger.error(`Error running query ${sql}: ${err}`);
+          Logger.error(`Error running query ${query}: ${err}`);
           reject(err);
         }
         resolve({ id: this.lastID });
@@ -35,6 +35,11 @@ class DAO {
     return this.run(query.trim());
   }
 
+  deleteTable(tableName) {
+    const query = `DROP TABLE IF EXISTS ${tableName}`;
+    return this.run(query.trim());
+  }
+
   getFromTable(tableName, fields, whereFields, params) {
     if (fieldNames.length !== params.length) return;
     const whereFieldsString = whereFields.map((field) => `${field}=?`);
@@ -47,7 +52,7 @@ class DAO {
     return this.run(query, params);
   }
 
-  getAllFromTable(tableName, whereFields, params) {
+  getAllFromTable(tableName, whereFields = [], params = []) {
     const whereFieldsString = whereFields.map((field) => `${field}=?`);
     const query = `SELECT *
     FROM ${tableName}
@@ -59,7 +64,9 @@ class DAO {
   }
 
   insertIntoTable(tableName, fieldNames, params) {
-    if (fieldNames.length !== params.length) return;
+    if (fieldNames.length !== params.length) {
+      return { Error: 'Fields and values length do not match' };
+    }
     const placeholders = Array(fieldNames.length).fill('?');
 
     const query = `INSERT INTO ${tableName}

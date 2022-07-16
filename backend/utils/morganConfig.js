@@ -1,5 +1,4 @@
 const morgan = require('morgan');
-const { StreamOptions } = require('morgan');
 const { isDev } = require('./env.config');
 const Logger = require('./logger');
 

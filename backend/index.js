@@ -24,15 +24,16 @@ app.use(compression());
 app.use(helmet());
 app.use(cors());
 app.use(morganMiddleware);
-app.use('/dev', devRoutes);
-app.use('/auth', authRoutes);
 app.use(errorHandler);
 
 app.options('*', (_, res) => {
   res.send(200);
 });
 
-new DAO(DB_PATH)
+app.use('/dev', devRoutes);
+app.use('/auth', authRoutes);
+
+new DAO(DB_PATH);
 
 app.listen(PORT, HOSTNAME, () => {
   Logger.debug(`Server started on ${HOSTNAME || 'localhost'}:${PORT}`);

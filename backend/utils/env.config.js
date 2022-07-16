@@ -11,10 +11,6 @@ const expressConfig = {
   HOSTNAME: HOST,
 };
 
-const logging = {
-  LEVEL: LOG_LEVEL || isDev ? 'debug' : 'warn',
-};
-
 const getLogLevel = () => {
   if (!LOG_LEVEL || !logLevels.includes(LOG_LEVEL)) {
     return isDev ? 'debug' : 'warn';
@@ -26,5 +22,4 @@ exports.isDev = isDev;
 exports.expressConfig = expressConfig;
 exports.JWT_SECRET = SECRET;
 exports.DB_PATH = DB;
-exports.logging = logging;
 exports.getLogLevel = getLogLevel;

@@ -7,8 +7,10 @@ const generateJWTExpiration = (time = 6, format = 'h') => {
   switch (format) {
     case 'h':
       time = time * 3600;
+      break;
     case 'm':
       time = time * 60;
+      break;
     case 's':
       break;
     default:

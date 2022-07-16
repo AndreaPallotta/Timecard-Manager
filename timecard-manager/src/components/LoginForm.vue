@@ -2,86 +2,103 @@
   <v-col cols="4" class="right">
     <h2>SIGN IN</h2>
     <validation-observer ref="observer">
-    <v-form @submit.prevent="handleLogin">
-      <validation-provider v-slot="{ errors }" name="email" rules="required|email" class="required-form-field">
-        <v-text-field
-        v-model="user.email"
-        :error-messages="errors"
-        :prepend-inner-icon="'mdi-account'"
-        label="Email"
-        required
-        outlined
-        dark
-        ></v-text-field>
-      </validation-provider>
-      <validation-provider v-slot="{ errors }" name="password" rules="required|password" class="required-form-field">
-        <v-text-field
-        v-model="user.password"
-        :error-messages="errors"
-        label="Password"
-        :prepend-inner-icon="'mdi-lock'"
-        :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append="showPass = !showPass"
-        required
-        outlined
-        dark
-        :type="showPass ? 'text' : 'password'"
-        ></v-text-field>
-      </validation-provider>
-      <div class="text-center">
-        <v-btn class="auth-btn" type="submit" rounded color="white">
-        Sign In
-        </v-btn>
-      </div>
-    </v-form>
+      <v-form @submit.prevent="handleLogin">
+        <validation-provider
+          v-slot="{ errors }"
+          name="email"
+          rules="required|email"
+          class="required-form-field"
+        >
+          <v-text-field
+            v-model="user.email"
+            :error-messages="errors"
+            :prepend-inner-icon="'mdi-account'"
+            label="Email"
+            required
+            outlined
+            dark
+          ></v-text-field>
+        </validation-provider>
+        <validation-provider
+          v-slot="{ errors }"
+          name="password"
+          rules="required|password"
+          class="required-form-field"
+        >
+          <v-text-field
+            v-model="user.password"
+            :error-messages="errors"
+            label="Password"
+            :prepend-inner-icon="'mdi-lock'"
+            :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="showPass = !showPass"
+            required
+            outlined
+            dark
+            :type="showPass ? 'text' : 'password'"
+          ></v-text-field>
+        </validation-provider>
+        <div class="text-center">
+          <v-btn class="auth-btn" type="submit" rounded color="white">
+            Sign In
+          </v-btn>
+        </div>
+      </v-form>
     </validation-observer>
   </v-col>
 </template>
 
 <script>
-import { ValidationProvider, setInteractionMode, ValidationObserver } from 'vee-validate';
-import User from '@/models/user';
+import {
+  ValidationProvider,
+  setInteractionMode,
+  ValidationObserver,
+} from "vee-validate";
+import User from "@/models/user";
 
-setInteractionMode('eager');
+setInteractionMode("eager");
 
 export default {
-  name: 'LoginForm',
+  name: "LoginForm",
   components: {
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
   },
   data: () => ({
     user: new User(),
     loading: false,
-    showPass: false
+    showPass: false,
   }),
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
     },
     params() {
-        return {
-            email: this.user.email,
-            password: this.user.password
-        }
-    }
+      return {
+        email: this.user.email,
+        password: this.user.password,
+      };
+    },
   },
   created() {
     if (this.loggedIn) {
-      this.$router.push('/home')
+      this.$router.push("/home");
     }
   },
   methods: {
     async handleLogin() {
       // const isFormValid = await this.$refs.observer.validate();
-      const res = await this.$store.dispatch('auth/login', { email: 'test', password: 'test' });
+      const res = await this.$store.dispatch("auth/login", {
+        email: "test",
+        password: "test",
+      });
       if (res.ErrorMsg) {
-        this.$root.vtoast.show(res.ErrorMsg, 'error');
+        this.$root.vtoast.show(res.ErrorMsg, "error");
       } else {
-        this.$router.push('/home')
+        this.$router.push("/home");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -102,8 +119,8 @@ export default {
     margin: 30px 0;
   }
   .auth-btn {
-      width: 100%;
-      color: #30ac7c;
+    width: 100%;
+    color: #30ac7c;
   }
 }
 </style>

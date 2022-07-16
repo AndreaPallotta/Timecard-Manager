@@ -6,7 +6,13 @@
           <h1>Welcome Back!</h1>
           <h3>Please login with your personal info</h3>
           <span>new User?</span>
-          <v-btn class="to-signup" type="submit" rounded color="white" @click="toggleForms">
+          <v-btn
+            class="to-signup"
+            type="submit"
+            rounded
+            color="white"
+            @click="toggleForms"
+          >
             Sign Up
           </v-btn>
           <span>Now</span>
@@ -32,7 +38,13 @@
           <h1>Welcome!</h1>
           <h3>Please enter your personal details</h3>
           <span>Already Registered?</span>
-          <v-btn class="to-signin" type="submit" rounded color="white" @click="toggleForms">
+          <v-btn
+            class="to-signin"
+            type="submit"
+            rounded
+            color="white"
+            @click="toggleForms"
+          >
             Sign In
           </v-btn>
           <span>Here</span>
@@ -56,43 +68,43 @@
 </template>
 
 <script>
-import LoginForm from './LoginForm.vue';
-import SignUpForm from './SignUpForm.vue';
+import LoginForm from "./LoginForm.vue";
+import SignUpForm from "./SignUpForm.vue";
 
 const gradients = [
-    ['#222'],
-    ['#42b3f4'],
-    ['red', 'orange', 'yellow'],
-    ['purple', 'violet'],
-    ['#00c6ff', '#F0F', '#FF0'],
-    ['#f72047', '#ffd200', '#1feaea'],
+  ["#222"],
+  ["#42b3f4"],
+  ["red", "orange", "yellow"],
+  ["purple", "violet"],
+  ["#00c6ff", "#F0F", "#FF0"],
+  ["#f72047", "#ffd200", "#1feaea"],
 ];
 
 export default {
-  name: 'AuthPage',
+  name: "AuthPage",
   data: () => ({
     showLogin: true,
     width: 2,
-      radius: 10,
-      padding: 8,
-      lineCap: 'round',
-      gradient: gradients[5],
-      value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
-      gradientDirection: 'top',
-      gradients,
-      fill: true,
-      type: 'trend',
-      autoLineWidth: false,
+    radius: 10,
+    padding: 8,
+    lineCap: "round",
+    gradient: gradients[5],
+    value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
+    gradientDirection: "top",
+    gradients,
+    fill: true,
+    type: "trend",
+    autoLineWidth: false,
   }),
   components: {
     LoginForm,
-    SignUpForm
+    SignUpForm,
   },
   methods: {
     toggleForms() {
-        this.showLogin = !this.showLogin
-    }
-  }
+      this.showLogin = !this.showLogin;
+    },
+  },
 };
 </script>
 
@@ -106,9 +118,9 @@ export default {
   box-shadow: 0 0 1px 1px rgba($color: #000000, $alpha: 0.1);
   box-sizing: border-box;
   height: 90vh;
-  display: 'flex';
-  justify-content: 'center';
-  align-items: 'center';
+  display: "flex";
+  justify-content: "center";
+  align-items: "center";
   .auth_row {
     padding: 0;
     max-width: 1000px;

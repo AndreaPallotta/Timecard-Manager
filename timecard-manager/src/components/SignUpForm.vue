@@ -2,96 +2,123 @@
   <v-col cols="4" class="left">
     <h2>SIGN UP</h2>
     <validation-observer ref="observer">
-    <v-form @submit.prevent="handleSignUp">
-      <validation-provider v-slot="{ errors }" name="firstName" rules="required" class="required-form-field">
-        <v-text-field
-        v-model="user.firstName"
-        :error-messages="errors"
-        label="First name"
-        required
-        outlined
-        dark
-        ></v-text-field>
-      </validation-provider>
-      <validation-provider v-slot="{ errors }" name="lastName" rules="required" class="required-form-field">
-        <v-text-field
-        v-model="user.lastName"
-        :error-messages="errors"
-        label="Last name"
-        required
-        outlined
-        dark
-        ></v-text-field>
-      </validation-provider>
-      <validation-provider v-slot="{ errors }" name="email" rules="required|email" class="required-form-field">
-        <v-text-field
-        v-model="user.email"
-        :error-messages="errors"
-        label="Email"
-        required
-        outlined
-        dark
-        ></v-text-field>
-      </validation-provider>
-      <validation-provider v-slot="{ errors }" name="password" rules="required|password" class="required-form-field">
-        <v-text-field
-        v-model="user.password"
-        :error-messages="errors"
-        label="Password"
-        :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append="showPass = !showPass"
-        required
-        outlined
-        dark
-        :type="showPass ? 'text' : 'password'"
-        ></v-text-field>
-        <password v-model="user.password" :strength-meter-only="true"></password>
-      </validation-provider>
-      <div class="text-center">
-        <v-btn class="auth-btn" type="submit" rounded color="white">
-        Sign Up
-        </v-btn>
-      </div>
-    </v-form>
+      <v-form @submit.prevent="handleSignUp">
+        <validation-provider
+          v-slot="{ errors }"
+          name="firstName"
+          rules="required"
+          class="required-form-field"
+        >
+          <v-text-field
+            v-model="user.firstName"
+            :error-messages="errors"
+            label="First name"
+            required
+            outlined
+            dark
+          ></v-text-field>
+        </validation-provider>
+        <validation-provider
+          v-slot="{ errors }"
+          name="lastName"
+          rules="required"
+          class="required-form-field"
+        >
+          <v-text-field
+            v-model="user.lastName"
+            :error-messages="errors"
+            label="Last name"
+            required
+            outlined
+            dark
+          ></v-text-field>
+        </validation-provider>
+        <validation-provider
+          v-slot="{ errors }"
+          name="email"
+          rules="required|email"
+          class="required-form-field"
+        >
+          <v-text-field
+            v-model="user.email"
+            :error-messages="errors"
+            label="Email"
+            required
+            outlined
+            dark
+          ></v-text-field>
+        </validation-provider>
+        <validation-provider
+          v-slot="{ errors }"
+          name="password"
+          rules="required|password"
+          class="required-form-field"
+        >
+          <v-text-field
+            v-model="user.password"
+            :error-messages="errors"
+            label="Password"
+            :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="showPass = !showPass"
+            required
+            outlined
+            dark
+            :type="showPass ? 'text' : 'password'"
+          ></v-text-field>
+          <password
+            v-model="user.password"
+            :strength-meter-only="true"
+          ></password>
+        </validation-provider>
+        <div class="text-center">
+          <v-btn class="auth-btn" type="submit" rounded color="white">
+            Sign Up
+          </v-btn>
+        </div>
+      </v-form>
     </validation-observer>
   </v-col>
 </template>
 
 <script>
-import { ValidationProvider, setInteractionMode, ValidationObserver } from 'vee-validate';
-import Password from 'vue-password-strength-meter';
-import User from '@/models/user';
+import {
+  ValidationProvider,
+  setInteractionMode,
+  ValidationObserver,
+} from "vee-validate";
+import Password from "vue-password-strength-meter";
+import User from "@/models/user";
 
-setInteractionMode('eager');
+setInteractionMode("eager");
 
 export default {
-  name: 'SignUpForm',
+  name: "SignUpForm",
   components: {
     ValidationProvider,
     ValidationObserver,
-    Password
+    Password,
   },
   data: () => ({
     user: new User(),
     loading: false,
-    showPass: false
+    showPass: false,
   }),
   computed: {
     params() {
-        return {
-            firstName: this.user.firstName,
-            lastName: this.user.lastName,
-            email: this.user.email,
-            password: this.user.password
-        }
-    }
+      return {
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
+        email: this.user.email,
+        password: this.user.password,
+      };
+    },
   },
   methods: {
     async handleSignUp() {
-        const isFormValid = await this.$refs.observer.validate();
-        console.log(isFormValid);
-    }
-  }
+      const isFormValid = await this.$refs.observer.validate();
+      console.log(isFormValid);
+    },
+  },
 };
 </script>
 
@@ -113,8 +140,8 @@ export default {
     margin: 30px 0;
   }
   .auth-btn {
-      width: 100%;
-      color: #30ac7c;
+    width: 100%;
+    color: #30ac7c;
   }
 }
 </style>

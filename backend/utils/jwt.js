@@ -30,7 +30,7 @@ const generateAuthJWT = (email, time, format) => {
     Logger.error('Generating JWTs requires Secret');
     return;
   }
-  const token = jwt.sign(email, JWT_SECRET, {
+  const token = jwt.sign({ email }, JWT_SECRET, {
     expiresIn: generateJWTExpiration(time, format),
   });
   Logger.debug(`New auth token generated for ${email}: ${token}`);
@@ -42,7 +42,7 @@ const generateRefreshJWT = (email) => {
     Logger.error('Generating JWTs requires Secret');
     return;
   }
-  const token = jwt.sign(email, JWT_SECRET);
+  const token = jwt.sign({ email }, JWT_SECRET);
   Logger.debug(`New refresh token generated for ${email}: ${token}`);
   return token;
 };

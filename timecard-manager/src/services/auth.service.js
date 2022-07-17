@@ -3,8 +3,7 @@ import ApiHandler from '@/constants/api';
 class AuthService {
   async login(user) {
     const data = await ApiHandler.post('auth/login', user);
-
-    if (data.accessToken) {
+    if (data.authToken && data.refreshToken) {
       localStorage.setItem('user', JSON.stringify(data));
     }
     return data;

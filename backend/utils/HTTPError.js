@@ -3,6 +3,11 @@ const createError = (errorMsg = 'Unknown Error Found', code = 500) => {
 };
 
 class HTTPError {
+  static custom(res, errorMsg, code) {
+    const { Code, Error } = createError(errorMsg, code);
+    if (!res) return { Code, Error };
+    return res.status(Code).json(Error);
+  }
   static E400(
     res,
     errorMsg = 'The request cannot be fulfilled due to bad syntax'

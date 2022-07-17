@@ -29,7 +29,7 @@ export const formatFetchReq = (method, body, contentType) => {
   }
   try {
     const bodyString = JSON.stringify(body);
-    return { headers, method, bodyString };
+    return { headers, method, body: bodyString };
   } catch (err) {
     throw new Error('400: Request Body Invalid');
   }

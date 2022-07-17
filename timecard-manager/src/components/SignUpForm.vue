@@ -116,7 +116,21 @@ export default {
   methods: {
     async handleSignUp() {
       const isFormValid = await this.$refs.observer.validate();
-      console.log(isFormValid);
+      if (!isFormValid) {
+        this.$root.vtoast.show("One or more form fields are invalid", "error");
+        return;
+      }
+      const res = await this.$store.dispatch("auth/signup", {
+        firstName: this.params.firstName,
+        lastName: this.params.lastName,
+        email: this.params.email,
+        password: this.params.password,
+      });
+      if (res.ErrorMsg) {
+        this.$root.vtoast.show(res.ErrorMsg, "error");
+      } else {
+        this.$router.push("/home");
+      }
     },
   },
 };

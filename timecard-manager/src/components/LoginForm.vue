@@ -87,15 +87,16 @@ export default {
   },
   methods: {
     async handleLogin() {
-      // const isFormValid = await this.$refs.observer.validate();
-      const res = await this.$store.dispatch("auth/login", {
-        email: "test",
-        password: "test",
-      });
+      const isFormValid = await this.$refs.observer.validate();
+      if (!isFormValid) {
+        this.$root.vtoast.show("One or more form fields are invalid", "error");
+        return;
+      }
+      const res = await this.$store.dispatch("auth/login", this.user);
       if (res.ErrorMsg) {
         this.$root.vtoast.show(res.ErrorMsg, "error");
       } else {
-        this.$router.push("/home");
+        // this.$router.push("/home");
       }
     },
   },

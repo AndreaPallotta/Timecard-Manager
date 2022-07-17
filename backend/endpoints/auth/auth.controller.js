@@ -1,17 +1,35 @@
 const db = require('../../utils/dbManager');
 const User = require('../../models/classes/User');
+const Logger = require('../../utils/logger');
+const HTTPError = require('../../utils/HTTPError');
+const { newTokens } = require('../../utils/jwt');
+const { isDev } = require('../../utils/env.config');
 
 exports.login = async (req, res, next) => {
-  const user = new User('Andrea', 'pallotta', 'email', 'password');
-  // const user = User.fromJSON({
-  //   firstName: 'Andrea',
-  //   lastName: 'pallotta',
-  //   email: 'email',
-  //   password: 'password',
-  // });
-  const inserted = db.users.insert(user)
-  console.log(inserted)
-  const users = db.users.getAll().then(console.log)
+  Logger.info(req.body);
+
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return HTTPError.E404('Email and/or Password invalid.');
+  }
+
+  try {
+    const { authToken, refreshToken } = newTokens(email);
+    if (!authToken || !refreshToken) throw new Error('Failed to generate JWTs');
+    const user = new User(
+      'Andrea',
+      'Pallotta',
+      email,
+      password,
+      authToken,
+      refreshToken,
+      isDev
+    );
+    return res.json(user);
+  } catch (err) {
+    return HTTPError.E400(res, `Error logging in: ${err}`);
+  }
 
   // db.dao.deleteTable('users');
 
@@ -23,7 +41,6 @@ exports.login = async (req, res, next) => {
   //   isAdmin: true,
   //   accessToken: '1234567890',
   // });
-  res.json({ user });
 };
 
 exports.signUp = async (req, res, next) => {};

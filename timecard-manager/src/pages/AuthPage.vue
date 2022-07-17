@@ -68,8 +68,8 @@
 </template>
 
 <script>
-import LoginForm from "./LoginForm.vue";
-import SignUpForm from "./SignUpForm.vue";
+import LoginForm from "../components/LoginForm.vue";
+import SignUpForm from "../components/SignUpForm.vue";
 
 const gradients = [
   ["#222"],

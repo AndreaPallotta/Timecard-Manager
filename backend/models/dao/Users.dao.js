@@ -24,11 +24,11 @@ const tableFields = [
     type: 'TEXT',
   },
   {
-    name: 'isAdmin',
-    type: 'BOOLEAN'
+    name: 'role',
+    type: 'TEXT',
   },
   {
-    name: 'accessToken',
+    name: 'authToken',
     type: 'TEXT',
   },
   {
@@ -42,7 +42,9 @@ const insertFields = [
   'last_name',
   'email',
   'password',
-  'isAdmin',
+  'authToken',
+  'refreshToken',
+  'role',
 ];
 
 class UsersDAO {

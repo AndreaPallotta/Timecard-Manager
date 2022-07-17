@@ -4,7 +4,7 @@ export default class User {
     lastName = '',
     email = '',
     password = '',
-    isAdmin = false,
+    role = 'user',
     authToken = '',
     refreshToken = ''
   ) {
@@ -12,7 +12,7 @@ export default class User {
     this.lastName = lastName;
     this.email = email;
     this.password = password;
-    this.isAdmin = isAdmin;
+    this.role = role;
     this.authToken = authToken;
     this.refreshToken = refreshToken;
   }

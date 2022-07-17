@@ -60,7 +60,7 @@ const validateJWT = (req, res, next) => {
     Logger.error('Validating JWTs requires Secret');
     return;
   }
-  const token = req.headers?.authorization?.split(' ')?.[1];
+  const token = req.headers?.['x-access-token'];
 
   if (!token) {
     Logger.error('401: Failed to authenticate user');

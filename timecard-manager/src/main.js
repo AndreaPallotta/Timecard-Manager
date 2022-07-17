@@ -5,6 +5,7 @@ import router from './routes/router';
 import Vuex from 'vuex';
 import store from './store';
 import validation from './plugins/validation';
+import './assets/global.css';
 
 Vue.config.productionTip = false;
 Vue.use(Vuex);

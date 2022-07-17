@@ -13,8 +13,9 @@ class AuthService {
     return await ApiHandler.post('auth/signup', user);
   }
 
-  async logout() {
-    localStorage.removeItem('user');
+  async signout(email) {
+    // localStorage.removeItem('user');
+    return await ApiHandler.post('auth/signout', { email });
   }
 }
 

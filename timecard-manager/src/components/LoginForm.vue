@@ -80,11 +80,6 @@ export default {
       };
     },
   },
-  created() {
-    if (this.loggedIn) {
-      this.$router.push("/home");
-    }
-  },
   methods: {
     async handleLogin() {
       const isFormValid = await this.$refs.observer.validate();
@@ -92,11 +87,18 @@ export default {
         this.$root.vtoast.show("One or more form fields are invalid", "error");
         return;
       }
-      const res = await this.$store.dispatch("auth/login", this.user);
-      if (res.ErrorMsg) {
-        this.$root.vtoast.show(res.ErrorMsg, "error");
+      const { firstName, lastName, ErrorMsg } = await this.$store.dispatch(
+        "auth/login",
+        this.user
+      );
+      if (ErrorMsg) {
+        this.$root.vtoast.show(ErrorMsg, "error");
       } else {
-        // this.$router.push("/home");
+        this.$root.vtoast.show(
+          `Successfully signed in as ${firstName} ${lastName}`,
+          "success"
+        );
+        this.$router.push("/home");
       }
     },
   },

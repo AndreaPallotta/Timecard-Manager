@@ -8,7 +8,7 @@ class User {
     password,
     authToken,
     refreshToken,
-    isAdmin = false
+    role = 'user'
   ) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -16,7 +16,7 @@ class User {
     this.password = password;
     this.authToken = authToken;
     this.refreshToken = refreshToken;
-    this.isAdmin = isAdmin;
+    this.role = role;
   }
 
   toArray() {
@@ -25,7 +25,7 @@ class User {
       this.lastName,
       this.email,
       this.password,
-      this.isAdmin,
+      this.role,
     ];
   }
 }

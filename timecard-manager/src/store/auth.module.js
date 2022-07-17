@@ -2,9 +2,11 @@ import { nullSafe } from '@/constants/env';
 import authService from '@/services/auth.service';
 
 const user = JSON.parse(localStorage.getItem('user'));
+const loggedIn =
+  nullSafe(user) && user.authToken && user.refreshToken ? true : false;
 const initialState = {
   status: {
-    loggedIn: nullSafe(user) ? true : false,
+    loggedIn,
   },
   user: nullSafe(user) ? user : null,
 };
@@ -23,9 +25,10 @@ export const auth = {
       commit(res.ErrorMsg ? 'registerFailure' : 'registerSuccess', user);
       return res;
     },
-    logout({ commit }) {
-      authService.logout();
-      commit('logout');
+    signout({ commit }, email) {
+      const res = authService.signout(email);
+      commit('signout');
+      return res;
     },
   },
   mutations: {
@@ -37,7 +40,7 @@ export const auth = {
       state.status.loggedIn = false;
       state.user = null;
     },
-    logout(state) {
+    signout(state) {
       state.status.loggedIn = false;
       state.user = null;
     },

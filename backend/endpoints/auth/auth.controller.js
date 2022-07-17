@@ -5,7 +5,7 @@ const HTTPError = require('../../utils/HTTPError');
 const { newTokens } = require('../../utils/jwt');
 const { isDev } = require('../../utils/env.config');
 
-exports.login = async (req, res, next) => {
+exports.login = async (req, res) => {
   Logger.info(req.body);
 
   const { email, password } = req.body;
@@ -30,21 +30,18 @@ exports.login = async (req, res, next) => {
   } catch (err) {
     return HTTPError.E400(res, `Error logging in: ${err}`);
   }
-
-  // db.dao.deleteTable('users');
-
-  // console.log(createDB);
-  // return res.json({
-  //   firstName: 'first name',
-  //   lastName: 'last Name',
-  //   email: 'email@email.com',
-  //   isAdmin: true,
-  //   accessToken: '1234567890',
-  // });
 };
 
-exports.signUp = async (req, res, next) => {};
+exports.signUp = async (req, res) => {};
 
-exports.signOut = async (req, res, next) => {};
+exports.signOut = async (req, res) => {
+  const { email } = req.body;
 
-exports.getSession = async (req, res, next) => {};
+  if (!email) {
+    return HTTPError.E400(res, 'Email is empty or invalid. Cannot sign out');
+  }
+
+  // TODO: ADD TOKENS TO BLACKLIST
+
+  return res.json({});
+};

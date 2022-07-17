@@ -18,12 +18,13 @@ export const formatEndpoint = (endpoint) => {
 
 export const handleErrors = (res, data) => {
   if (!res.ok || !nullSafe(data)) {
-    throw new Error(`(400) ${data?.Error || res.statusText}`);
+    throw new Error(`(${res.status}) ${data?.Error || res.statusText}`);
   }
 };
 
 export const formatFetchReq = (method, body, contentType) => {
   const headers = getAuthHeader(contentType);
+  console.log(headers);
   if (method === 'GET') {
     return { headers };
   }

@@ -5,11 +5,6 @@ export const API_URL = isDev
   ? 'http://localhost:8081'
   : 'http://localhost:8081';
 
-export const AUTH_API = {
-  login: `${API_URL}/auth/login`,
-  signUp: `${API_URL}/auth/signUp`,
-};
-
 export const formatEndpoint = (endpoint) => {
   if (endpoint.includes('http://')) return endpoint;
   if (endpoint.startsWith('/')) return `${API_URL}${endpoint}`;
@@ -24,7 +19,6 @@ export const handleErrors = (res, data) => {
 
 export const formatFetchReq = (method, body, contentType) => {
   const headers = getAuthHeader(contentType);
-  console.log(headers);
   if (method === 'GET') {
     return { headers };
   }

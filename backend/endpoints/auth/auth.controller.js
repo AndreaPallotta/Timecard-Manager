@@ -21,24 +21,36 @@ exports.login = async (req, res) => {
       'Andrea',
       'Pallotta',
       email,
-      password,
+      '',
       authToken,
-      refreshToken,
-      isDev
+      refreshToken
     );
     return res.json(user);
   } catch (err) {
-    return HTTPError.E400(res, `Error logging in: ${err}`);
+    return HTTPError.E400(res, err);
   }
 };
 
-exports.signUp = async (req, res) => {};
+exports.signUp = async (req, res) => {
+  const user = req.body;
+
+  if (Object.values(user).some((attr) => !attr)) {
+    return HTTPError.E404(res, 'One or more fields are invalid');
+  }
+
+  try {
+    const { authToken, refreshToken } = newTokens(email);
+    const newUser = new User(user.firstName, user.lastName, user.email, '');
+  } catch (err) {
+    return HTTPError.E400(res, err);
+  }
+};
 
 exports.signOut = async (req, res) => {
   const { email } = req.body;
 
   if (!email) {
-    return HTTPError.E400(res, 'Email is empty or invalid. Cannot sign out');
+    return HTTPError.E400(res, 'Cannot logout. Email is empty or invalid');
   }
 
   // TODO: ADD TOKENS TO BLACKLIST

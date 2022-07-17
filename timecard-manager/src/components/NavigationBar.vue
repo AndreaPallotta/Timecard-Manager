@@ -18,6 +18,9 @@
             {{ getUser.firstName }} {{ getUser.lastName }}
           </v-list-item-title>
           <v-list-item-subtitle>{{ getUser.email }}</v-list-item-subtitle>
+          <v-list-item-subtitle v-if="getUser.role !== 'user'" class="role">{{
+            getUser.role
+          }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -100,5 +103,10 @@ export default {
 <style scoped>
 .selected-list-item {
   color: red;
+}
+.role {
+  text-transform: capitalize;
+  color: green !important;
+  font-weight: bolder;
 }
 </style>

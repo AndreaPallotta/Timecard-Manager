@@ -1,3 +1,4 @@
+const { isDev } = require('../../utils/env.config');
 const HTTPError = require('../../utils/HTTPError');
 
 class User {
@@ -5,10 +6,10 @@ class User {
     firstName,
     lastName,
     email,
-    password,
+    password = '',
     authToken,
     refreshToken,
-    role = 'user'
+    role = isDev ? 'developer' : 'user'
   ) {
     this.firstName = firstName;
     this.lastName = lastName;

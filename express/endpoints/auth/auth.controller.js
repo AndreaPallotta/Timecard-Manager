@@ -1,7 +1,7 @@
-const Logger = require('../../utils/logger');
-const HTTPError = require('../../utils/HTTPError');
-const { newTokens } = require('../../utils/jwt');
-const { isDev } = require('../../utils/env.config');
+const Logger = require('@log/logger');
+const HTTPError = require('@errors/HTTPError');
+const { newTokens } = require('@auth/jwt');
+// const { isDev } = require('@utils/env.config');
 
 exports.login = async (req, res) => {
   Logger.info(req.body);
@@ -29,7 +29,7 @@ exports.signUp = async (req, res) => {
   }
 
   try {
-    const { authToken, refreshToken } = newTokens(email);
+    const { authToken, refreshToken } = newTokens(user.email);
   } catch (err) {
     return HTTPError.E400(res, err);
   }

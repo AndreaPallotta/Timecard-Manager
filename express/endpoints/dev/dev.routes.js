@@ -1,4 +1,4 @@
-const { getSysInfo } = require('./dev.controller');
+const { getSysInfo } = require('@routes/dev/dev.controller');
 
 const router = require('express').Router();
 

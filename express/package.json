@@ -1,0 +1,65 @@
+{
+  "_moduleAliases": {
+    "@auth": "auth/",
+    "@errors": "errorHandling/",
+    "@log": "logging/",
+    "@root": ".",
+    "@routes": "endpoints/",
+    "@utils": "utils/"
+  },
+  "author": "Andrea Pallotta",
+  "bugs": {
+    "url": "https://github.com/AndreaPallotta/Templates/issues"
+  },
+  "dependencies": {
+    "apicache": "^1.6.3",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-rate-limit": "^6.5.1",
+    "helmet": "^5.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
+    "morgan": "^1.10.0",
+    "node-os-utils": "^1.3.7",
+    "serve-index": "^1.9.1",
+    "winston": "^3.8.1"
+  },
+  "description": "*Insert Description*",
+  "devDependencies": {
+    "@types/jest": "^28.1.6",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.19.0",
+    "jest": "^28.1.3",
+    "nodemon": "^2.0.19",
+    "superagent": "^8.0.0",
+    "supertest": "^6.2.4"
+  },
+  "homepage": "https://github.com/AndreaPallotta/Templates/tree/master/express#readme",
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testEnvironment": "node"
+  },
+  "keywords": [
+    "express",
+    "template",
+    "server"
+  ],
+  "license": "MIT",
+  "main": "server.js",
+  "name": "express",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndreaPallotta/Templates.git"
+  },
+  "scripts": {
+    "start": "nodemon --quiet server.js",
+    "test": "cross-env NODE_ENV=test jest --config ./jest.config.js --detectOpenHandles --forceExit --testTimeout=10000"
+  },
+  "version": "1.0.0"
+}

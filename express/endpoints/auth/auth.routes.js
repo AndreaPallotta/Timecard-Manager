@@ -1,5 +1,5 @@
-const { validateToken } = require('../../utils/jwt');
-const { login, signUp, signOut } = require('./auth.controller');
+const { validateToken } = require('@auth/jwt.js');
+const { login, signUp, signOut } = require('@routes/auth/auth.controller');
 
 const router = require('express').Router();
 

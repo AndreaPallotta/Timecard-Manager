@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  firstName    String
+  lastName     String
+  email        String     @unique
+  password     String
+  authToken    String?    @unique
+  refreshToken String?    @unique
+  timecards    Timecard[]
+}
+
+model Timecard {
+  id            String            @id @default(auto()) @map("_id") @db.ObjectId
+  currentAction String
+  lastActionAt  String
+  user          User              @relation(fields: [userId], references: [id])
+  userId        String            @db.ObjectId
+  allActions    TimecardActions[]
+  allActionsId  String            @db.ObjectId
+}
+
+model TimecardActions {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  action     String
+  actionAt   String
+  timecard   Timecard @relation(fields: [timecardId], references: [id])
+  timecardId String   @db.ObjectId
+}

@@ -1,12 +1,12 @@
+import ApiHandler from '@/constants/api';
+
 class UserService {
-  async getAllTimecard() {}
-  async getTimecardByDate() {}
-  async getTotalHours() {}
-  async clearTimecard() {}
-  async clearAllTimecard() {}
-  async getProfileInfo() {}
-  async getAllStats() {}
-  async getStatsByDate() {}
+  async getPreferences(email) {
+    return ApiHandler.get('user/preferences', { email });
+  }
+  async setPreferences(email, preferences) {
+    return ApiHandler.post('user/preferences', { email, preferences });
+  }
 }
 
 export default new UserService();

@@ -17,24 +17,27 @@ export const handleErrors = (res, data) => {
   }
 };
 
-export const formatFetchReq = (method, body, contentType) => {
+export const formatFetchReq = (method, params, contentType) => {
   const headers = getAuthHeader(contentType);
   if (method === 'GET') {
-    return { headers };
+    if (!params || typeof params !== 'object') {
+      return { headers };
+    }
+    return new URLSearchParams(params).toString();
   }
   try {
-    const bodyString = JSON.stringify(body);
-    return { headers, method, body: bodyString };
+    const body = JSON.stringify(params);
+    return { headers, method, body };
   } catch (err) {
     throw new Error('400: Request Body Invalid');
   }
 };
 
 class ApiHandler {
-  static async get(endpoint, contentType) {
+  static async request(endpoint, params, contentType, reqType = 'GET') {
     const formattedEndpoint = formatEndpoint(endpoint);
     try {
-      const req = formatFetchReq('GET', undefined, contentType);
+      const req = formatFetchReq(reqType, params, contentType);
       const res = await fetch(formattedEndpoint, req);
       const data = await res.json();
       handleErrors(res, data);
@@ -43,18 +46,12 @@ class ApiHandler {
       return { ErrorMsg: err };
     }
   }
+  static async get(endpoint, params, contentType) {
+    return ApiHandler.request(endpoint, params, contentType);
+  }
 
-  static async post(endpoint, body, contentType) {
-    const formattedEndpoint = formatEndpoint(endpoint);
-    try {
-      const req = formatFetchReq('POST', body, contentType);
-      const res = await fetch(formattedEndpoint, req);
-      const data = await res.json();
-      handleErrors(res, data);
-      return data;
-    } catch (err) {
-      return { ErrorMsg: err };
-    }
+  static async post(endpoint, params, contentType) {
+    return ApiHandler.request(endpoint, params, contentType, 'POST');
   }
 }
 

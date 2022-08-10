@@ -17,4 +17,4 @@ extend('password', {
   message: 'Password must be at least 8 characters long',
 });
 
-Vue.component('ValidationProvider', ValidationProvider);
+export default Vue.component('ValidationProvider', ValidationProvider);

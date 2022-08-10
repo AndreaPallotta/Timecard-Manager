@@ -1,5 +1,3 @@
-const db = require('../../utils/dbManager');
-const User = require('../../models/classes/User');
 const Logger = require('../../utils/logger');
 const HTTPError = require('../../utils/HTTPError');
 const { newTokens } = require('../../utils/jwt');
@@ -17,15 +15,7 @@ exports.login = async (req, res) => {
   try {
     const { authToken, refreshToken } = newTokens(email);
     if (!authToken || !refreshToken) throw new Error('Failed to generate JWTs');
-    const user = new User(
-      'Andrea',
-      'Pallotta',
-      email,
-      '',
-      authToken,
-      refreshToken
-    );
-    return res.json(user);
+    return res.json({});
   } catch (err) {
     return HTTPError.E400(res, err);
   }
@@ -40,7 +30,6 @@ exports.signUp = async (req, res) => {
 
   try {
     const { authToken, refreshToken } = newTokens(email);
-    const newUser = new User(user.firstName, user.lastName, user.email, '');
   } catch (err) {
     return HTTPError.E400(res, err);
   }

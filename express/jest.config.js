@@ -1,4 +1,5 @@
 module.exports = {
+    clearMocks: true,
     rootDir: '.',
     moduleNameMapper: {
         '@auth/(.*)': '<rootDir>/auth/$1',
@@ -7,5 +8,13 @@ module.exports = {
         '@root/(.*)': '<rootDir>/$1',
         '@routes/(.*)': '<rootDir>/endpoints/$1',
         '@utils/(.*)': '<rootDir>/utils/$1',
+        '@tests/(.*)': "'<rootDir>/tests/$1",
+        '@queries/(.*)': "'<rootDir>/queries/$1",
     },
+    collectCoverage: true,
+    coverageDirectory: 'coverage',
+    setupFilesAfterEnv: ['<rootDir>/tests/setup/singleton.js'],
+    slowTestThreshold: 3,
+    testPathIgnorePatterns: ['/node_modules/'],
+    verbose: true,
 };

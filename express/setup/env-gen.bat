@@ -21,7 +21,6 @@ IF EXIST %file% (
         ECHO SECRET="%secret%"
         ECHO CACHE_TIME="2 minutes"
         ECHO SECURE_TESTS=true # Use JWTs in Jest unit tests
-        ECHO DATABASE_URL="mongodb+srv://timecard-manager:jQ6VRTPFryFWwXat@timecard-manager.e7af3zy.mongodb.net/?retryWrites=true&w=majority"
     ) > %file%
     ECHO %file_name% created with default content.
 )

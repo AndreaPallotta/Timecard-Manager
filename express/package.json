@@ -6,6 +6,7 @@
     "@queries": "queries/",
     "@root": ".",
     "@routes": "endpoints/",
+    "@tests": "tests/",
     "@utils": "utils/"
   },
   "author": "Andrea Pallotta",
@@ -15,6 +16,8 @@
   "dependencies": {
     "@prisma/client": "^4.2.1",
     "apicache": "^1.6.3",
+    "bcrypt": "^5.0.1",
+    "casual": "^1.6.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
@@ -36,6 +39,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.19.0",
     "jest": "^28.1.3",
+    "jest-mock-extended": "^2.0.7",
     "nodemon": "^2.0.19",
     "prisma": "^4.2.1",
     "superagent": "^8.0.0",
@@ -61,7 +65,8 @@
     "url": "git+https://github.com/AndreaPallotta/Templates.git"
   },
   "scripts": {
-    "model-gen": "prisma generate",
+    "dev": "npm run gen && npm start",
+    "gen": "prisma generate",
     "start": "nodemon --quiet server.js",
     "test": "cross-env NODE_ENV=test jest --config ./jest.config.js --detectOpenHandles --forceExit --testTimeout=10000"
   },

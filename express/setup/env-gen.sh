@@ -16,7 +16,6 @@ LOG_LEVEL=debug # Log Level Depth. Remove for default: 'debug' for dev and 'warn
 SECRET="$secret"
 CACHE_TIME="2 minutes"
 SECURE_TESTS=true # Use JWTs in Jest unit tests
-DATABASE_URL="mongodb+srv://timecard-manager:jQ6VRTPFryFWwXat@timecard-manager.e7af3zy.mongodb.net/?retryWrites=true&w=majority"
 EOT
     echo "$file_name created with default content."
 fi

@@ -3,6 +3,7 @@
     v-model="drawer"
     permanent
     expand-on-hover
+    fixed
     v-if="showNavBar"
   >
     <v-list>

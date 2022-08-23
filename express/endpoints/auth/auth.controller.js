@@ -9,7 +9,7 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return HTTPError.E404('Email and/or Password invalid.');
+        return HTTPError.Err(400, 'Email and/or Password invalid.');
     }
 
     try {
@@ -21,7 +21,7 @@ exports.login = async (req, res) => {
         console.log(user);
         return res.json({});
     } catch (err) {
-        return HTTPError.E400(res, err);
+        return HTTPError.Err(res, err);
     }
 };
 

@@ -1,0 +1,23 @@
+{
+  "name": "timecard-manager",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "prisma": "^4.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start:all": "concurrently --kill-others --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold, bgMagenta.bold\" \"npm start --prefix ./express\" \"npm start --prefix ./timecard-manager\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndreaPallotta/Timecard-Manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndreaPallotta/Timecard-Manager/issues"
+  },
+  "homepage": "https://github.com/AndreaPallotta/Timecard-Manager#readme"
+}

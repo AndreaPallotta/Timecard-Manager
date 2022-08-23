@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app style="background-color: #ddd">
     <NavigationBar></NavigationBar>
     <router-view></router-view>
     <vToast ref="vtoast"></vToast>

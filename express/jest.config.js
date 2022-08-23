@@ -10,6 +10,7 @@ module.exports = {
         '@utils/(.*)': '<rootDir>/utils/$1',
         '@tests/(.*)': "'<rootDir>/tests/$1",
         '@queries/(.*)': "'<rootDir>/queries/$1",
+        '@validation/(.*)': "'<rootDir>/validation/$1",
     },
     collectCoverage: true,
     coverageDirectory: 'coverage',

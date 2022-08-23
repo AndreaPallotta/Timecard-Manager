@@ -1,11 +1,11 @@
 import Vue from 'vue';
+import Vuex from 'vuex';
 import App from './App.vue';
+import './assets/global.css';
+import validation from './plugins/validation';
 import vuetify from './plugins/vuetify';
 import router from './routes/router';
-import Vuex from 'vuex';
 import store from './store';
-import validation from './plugins/validation';
-import './assets/global.css';
 
 Vue.config.productionTip = false;
 Vue.use(Vuex);

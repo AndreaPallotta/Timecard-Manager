@@ -1,4 +1,5 @@
 import App from '@/App';
+import ChildPage from '@/pages/ChildPage';
 import NotFound from '@/pages/NotFound';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -10,6 +11,12 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     errorElement: <NotFound />,
+    children: [
+      {
+        path: '/child',
+        element: <ChildPage />,
+      },
+    ],
   },
 ]);
 

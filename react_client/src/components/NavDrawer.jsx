@@ -19,6 +19,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 
 const width = 240;
 
@@ -106,7 +107,7 @@ const NavDrawer = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' noWrap component='div'>
-            Mini variant drawer
+            Timecard Manager
           </Typography>
         </Toolbar>
       </AppBar>
@@ -171,6 +172,10 @@ const NavDrawer = () => {
           ))}
         </List>
       </Drawer>
+      <Box component='main' sx={{ flexGrow: 1, height: '100vh' }}>
+        <DrawerHeader />
+        <Outlet />
+      </Box>
     </Box>
   );
 };

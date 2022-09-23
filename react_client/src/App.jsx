@@ -1,7 +1,7 @@
+import NavDrawer from '@/components/NavDrawer';
 import Notification from '@/components/Notification';
 import NotificationContext from '@/contexts/Notification';
 import useNotification from '@/hooks/useNotification';
-import ChildPage from '@/pages/ChildPage';
 import { app } from '@/utils/env';
 import React, { useEffect } from 'react';
 
@@ -15,7 +15,7 @@ function App() {
   return (
     <NotificationContext.Provider value={{ notification, setNotification }}>
       <div className='App'>
-        <ChildPage />
+        <NavDrawer />
         <Notification
           open={notification.open}
           onClose={close}

@@ -7,7 +7,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start:all": "concurrently --kill-others --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold, bgMagenta.bold\" \"npm start --prefix ./express\" \"npm start --prefix ./timecard-manager\""
+    "start:all": "concurrently --kill-others --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold, bgMagenta.bold\" \"npm start --prefix ./express\" \"npm run dev --prefix ./react_client\""
   },
   "repository": {
     "type": "git",

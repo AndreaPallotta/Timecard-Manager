@@ -1,22 +1,40 @@
 import App from '@/App';
+import AuthPage from '@/pages/AuthPage';
 import ChildPage from '@/pages/ChildPage';
-import NotFound from '@/pages/NotFound';
+import NotFound from '@/pages/NotFoundPage';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, Route, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
+import ModeEnforcer from './styles/ModeEnforcerer';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
-    errorElement: <NotFound />,
+    element: (
+      <ModeEnforcer>
+        <App />
+      </ModeEnforcer>
+    ),
+    errorElement: (
+      <ModeEnforcer>
+        <NotFound />
+      </ModeEnforcer>
+    ),
     children: [
       {
         path: '/child',
         element: <ChildPage />,
       },
     ],
+  },
+  {
+    path: '/auth',
+    element: (
+      <ModeEnforcer>
+        <AuthPage />
+      </ModeEnforcer>
+    ),
   },
 ]);
 

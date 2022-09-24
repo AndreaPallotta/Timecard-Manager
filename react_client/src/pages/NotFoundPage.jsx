@@ -1,10 +1,11 @@
 import { Box, Button, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { useRouteError } from 'react-router-dom';
+import { useNavigate, useRouteError } from 'react-router-dom';
 
 const NotFound = () => {
   const error = useRouteError();
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -27,7 +28,13 @@ const NotFound = () => {
             <Typography variant='subtitle2' style={{ marginTop: '0.3rem' }}>
               {error.statusText || error.message}
             </Typography>
-            <Button sx={{ marginTop: '1rem' }} variant='contained'>
+            <Button
+              sx={{ marginTop: '1rem' }}
+              variant='contained'
+              onClick={() => {
+                navigate('/');
+              }}
+            >
               Go to Homepage
             </Button>
           </Grid>

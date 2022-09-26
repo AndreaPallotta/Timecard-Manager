@@ -1,12 +1,15 @@
+import CTextField from '@/components/Form/TextField';
 import { iconToNode } from '@/styles/tranformations';
 import {
+  EmailTwoTone,
   FacebookOutlined,
   GitHub,
   Google,
+  KeyTwoTone,
   LinkedIn,
 } from '@mui/icons-material';
-import { Box, Button, IconButton, TextField, Typography } from '@mui/material';
-import React from 'react';
+import { Box, Button, IconButton, Typography } from '@mui/material';
+import React, { useState } from 'react';
 
 const federatedOptions = [
   {
@@ -28,6 +31,13 @@ const federatedOptions = [
 ];
 
 const LoginPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
   return (
     <Box
       p={3}
@@ -38,8 +48,20 @@ const LoginPage = () => {
         alignItems: 'center',
       }}
     >
-      <TextField sx={{ width: '100%' }}>Email</TextField>
-      <TextField>Password</TextField>
+      {/* <TextField sx={{ width: '100%' }}>Email</TextField> */}
+      <CTextField
+        value={email}
+        label='Email Address'
+        onChange={handleEmailChange}
+        required
+        type='email'
+        error
+        start={{
+          icon: <EmailTwoTone />,
+          aria: 'login-email-field',
+        }}
+        password
+      />
 
       <Button>Sign In</Button>
 

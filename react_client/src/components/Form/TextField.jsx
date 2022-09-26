@@ -1,3 +1,4 @@
+import useBoolean from '@/hooks/useBoolean';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
@@ -8,8 +9,9 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 
+// TODO: Fix password toggle
 const CTextField = (props) => {
   const {
     label,
@@ -26,11 +28,7 @@ const CTextField = (props) => {
     ...other
   } = props;
 
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleToggleShowPassword = () => {
-    setShowPassword((...prevState) => !prevState);
-  };
+  const [showPassword, toggleShowPassword] = useBoolean(false);
 
   const prevDefault = (event) => {
     event.preventDefault();
@@ -38,8 +36,8 @@ const CTextField = (props) => {
 
   const formatAdornment = (adornment, position) => (
     <InputAdornment position={position}>
-      {typeof adornment === 'string' ? (
-        adornment
+      {typeof adornment === 'string' || !adornment.onClick ? (
+        adornment.icon ?? adornment
       ) : (
         <IconButton
           aria-label={adornment.aria}
@@ -57,7 +55,7 @@ const CTextField = (props) => {
     formatAdornment(
       {
         icon: showPassword ? <VisibilityOff /> : <Visibility />,
-        onClick: handleToggleShowPassword,
+        onClick: toggleShowPassword,
         aria: 'toggle-password-field-visibility',
       },
       'end'
@@ -71,8 +69,12 @@ const CTextField = (props) => {
 
   return (
     <FormControl>
-      <InputLabel htmlFor={`c-text-field-${label}}`}>{label}</InputLabel>
+      <InputLabel htmlFor={`c-text-field-${label}}`}>
+        {label} \t
+        {`${showPassword}`}
+      </InputLabel>
       <OutlinedInput
+        autoFocus
         defaultValue={defaultValue}
         error={error || false}
         fullWidth
@@ -87,7 +89,7 @@ const CTextField = (props) => {
         variant='outlined'
         {...(type && { type })}
         {...(password && {
-          type: 'password',
+          type: showPassword ? 'password' : 'text',
         })}
         {...(isAdornmentValid(start) && {
           startAdornment: formatAdornment(start, 'start'),

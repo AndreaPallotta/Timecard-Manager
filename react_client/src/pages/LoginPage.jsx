@@ -38,29 +38,53 @@ const LoginPage = () => {
     setEmail(event.target.value);
   };
 
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const validateEmail = () => {
+    return email.toLowerCase().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+  };
+
+  const validatePassword = () => {
+    return password.match(
+      /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/
+    );
+  };
+
   return (
     <Box
       p={3}
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
       }}
     >
-      {/* <TextField sx={{ width: '100%' }}>Email</TextField> */}
       <CTextField
         value={email}
-        label='Email Address'
+        label='Email'
         onChange={handleEmailChange}
         required
+        error={!validateEmail()}
         type='email'
-        error
         start={{
           icon: <EmailTwoTone />,
           aria: 'login-email-field',
         }}
+      />
+
+      <CTextField
+        value={password}
+        label='Password'
+        onChange={handlePasswordChange}
+        required
+        error={!validatePassword()}
         password
+        start={{
+          icon: <KeyTwoTone />,
+          aria: 'login-password-field',
+        }}
       />
 
       <Button>Sign In</Button>

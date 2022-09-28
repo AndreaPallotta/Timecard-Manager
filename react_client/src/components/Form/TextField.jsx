@@ -1,4 +1,3 @@
-import useBoolean from '@/hooks/useBoolean';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
@@ -10,6 +9,7 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import useBoolean from '@/hooks/useBoolean';
 
 // TODO: Fix password toggle
 const CTextField = (props) => {
@@ -17,7 +17,6 @@ const CTextField = (props) => {
     label,
     value,
     onChange,
-    defaultValue,
     password,
     type,
     required,
@@ -25,10 +24,15 @@ const CTextField = (props) => {
     error,
     start,
     end,
+    focusFirst,
     ...other
   } = props;
 
-  const [showPassword, toggleShowPassword] = useBoolean(false);
+  const [showPassword, toggleShowPassword] = useBoolean(true);
+
+  // const toggleShowPassword = (event) => {
+  //   setShowPassword((prevState) => !prevState);
+  // };
 
   const prevDefault = (event) => {
     event.preventDefault();
@@ -55,7 +59,9 @@ const CTextField = (props) => {
     formatAdornment(
       {
         icon: showPassword ? <VisibilityOff /> : <Visibility />,
-        onClick: toggleShowPassword,
+        onClick: () => {
+          toggleShowPassword();
+        },
         aria: 'toggle-password-field-visibility',
       },
       'end'
@@ -68,28 +74,22 @@ const CTextField = (props) => {
   };
 
   return (
-    <FormControl>
-      <InputLabel htmlFor={`c-text-field-${label}}`}>
-        {label} \t
-        {`${showPassword}`}
-      </InputLabel>
+    <FormControl fullWidth sx={{ marginBottom: '1.5rem' }}>
+      <InputLabel htmlFor={`c-text-field-${label}}`}>{label}</InputLabel>
       <OutlinedInput
-        autoFocus
-        defaultValue={defaultValue}
+        autoFocus={focusFirst || false}
         error={error || false}
-        fullWidth
         id={`c-text-field-${label}}`}
         label={label}
-        margin='dense'
         name={label.toLowerCase()}
         onChange={onChange}
         readOnly={readOnly || false}
         required={required ?? false}
         value={value}
-        variant='outlined'
+        variant="outlined"
         {...(type && { type })}
         {...(password && {
-          type: showPassword ? 'password' : 'text',
+          type: showPassword ? 'text' : 'password',
         })}
         {...(isAdornmentValid(start) && {
           startAdornment: formatAdornment(start, 'start'),
@@ -111,7 +111,6 @@ CTextField.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  defaultValue: PropTypes.string,
   password: PropTypes.bool,
   type: PropTypes.string,
   required: PropTypes.bool,
@@ -133,6 +132,7 @@ CTextField.propTypes = {
       aria: PropTypes.string,
     }),
   ]),
+  focusFirst: PropTypes.bool,
 };
 
 export default CTextField;

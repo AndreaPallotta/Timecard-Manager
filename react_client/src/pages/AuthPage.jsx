@@ -26,14 +26,14 @@ const AuthPage = () => {
         alignItems: 'center',
       }}
     >
-      <Typography variant='h4'>Timecard Manager</Typography>
+      <Typography variant="h4">Timecard Manager</Typography>
       <Grid container>
         <Grid item xs={false} md={4} />
         <Grid item xs={12} md={4}>
           <Box p={2} boxShadow={2}>
             <Tabs value={active} onChange={handleTabChange} centered>
-              <Tab label='Sign In' {...a11yProps(0)} />
-              <Tab label='Sign Up' {...a11yProps(1)} />
+              <Tab label="Sign In" {...a11yProps(0)} />
+              <Tab label="Sign Up" {...a11yProps(1)} />
             </Tabs>
 
             <TabPanel value={active} index={0}>

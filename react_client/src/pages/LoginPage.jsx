@@ -1,5 +1,7 @@
+import CDivider from '@/components/Form/Divider';
 import CTextField from '@/components/Form/TextField';
 import { iconToNode } from '@/styles/tranformations';
+import validations from '@/utils/regex';
 import {
   EmailTwoTone,
   FacebookOutlined,
@@ -42,16 +44,6 @@ const LoginPage = () => {
     setPassword(event.target.value);
   };
 
-  const validateEmail = () => {
-    return email.toLowerCase().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-  };
-
-  const validatePassword = () => {
-    return password.match(
-      /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/
-    );
-  };
-
   return (
     <Box
       p={3}
@@ -63,11 +55,11 @@ const LoginPage = () => {
     >
       <CTextField
         value={email}
-        label='Email'
+        label="Email"
         onChange={handleEmailChange}
         required
-        error={!validateEmail()}
-        type='email'
+        error={!validations.email(email)}
+        type="email"
         start={{
           icon: <EmailTwoTone />,
           aria: 'login-email-field',
@@ -76,10 +68,10 @@ const LoginPage = () => {
 
       <CTextField
         value={password}
-        label='Password'
+        label="Password"
         onChange={handlePasswordChange}
         required
-        error={!validatePassword()}
+        error={!validations.password(password)}
         password
         start={{
           icon: <KeyTwoTone />,
@@ -89,7 +81,9 @@ const LoginPage = () => {
 
       <Button>Sign In</Button>
 
-      <Typography>Or continue with</Typography>
+      <CDivider chip content="Or continue with" />
+
+      {/* <Typography>Or continue with</Typography> */}
       <Box
         sx={{
           display: 'flex',
@@ -100,7 +94,7 @@ const LoginPage = () => {
           <IconButton
             key={index}
             aria-label={`federated-auth-${index}`}
-            size='medium'
+            size="medium"
           >
             {iconToNode(icon, color)}
           </IconButton>

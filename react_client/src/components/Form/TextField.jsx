@@ -1,4 +1,5 @@
 import useBoolean from '@/hooks/useBoolean';
+import { toCamelCase } from '@/utils/format';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
@@ -17,6 +18,7 @@ const CTextField = (props) => {
     error,
     focusFirst,
     label,
+    name,
     onChange,
     password,
     readOnly,
@@ -76,7 +78,7 @@ const CTextField = (props) => {
         error={error || false}
         id={`c-text-field-${label}}`}
         label={label}
-        name={label.toLowerCase()}
+        name={name || toCamelCase(label)}
         onChange={onChange}
         readOnly={readOnly || false}
         required={required ?? false}
@@ -114,6 +116,7 @@ CTextField.propTypes = {
   error: PropTypes.bool,
   focusFirst: PropTypes.bool,
   label: PropTypes.string.isRequired,
+  name: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   password: PropTypes.bool,
   readOnly: PropTypes.bool,

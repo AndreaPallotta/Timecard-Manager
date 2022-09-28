@@ -3,6 +3,7 @@ import CDivider from '@/components/Form/Divider';
 import CTextField from '@/components/Form/TextField';
 import { iconToNode } from '@/styles/transformations';
 import validations from '@/utils/regex';
+import { isFormValid } from '@/utils/validation';
 import {
   EmailTwoTone,
   FacebookOutlined,
@@ -37,6 +38,11 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const fieldValidations = {
+    email: validations.email(email),
+    password: validations.password(password),
+  };
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -44,9 +50,6 @@ const LoginPage = () => {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
-
-  const isFormValid = () =>
-    validations.email(email) && validations.password(password);
 
   return (
     <Box
@@ -85,7 +88,7 @@ const LoginPage = () => {
 
       <CButton
         label="Sign In"
-        disabled={!isFormValid()}
+        disabled={!isFormValid(fieldValidations)}
         onClick={console.log}
         my={0.5}
       />

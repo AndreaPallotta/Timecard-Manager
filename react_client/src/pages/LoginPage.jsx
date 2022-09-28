@@ -1,6 +1,7 @@
+import CButton from '@/components/Form/Button';
 import CDivider from '@/components/Form/Divider';
 import CTextField from '@/components/Form/TextField';
-import { iconToNode } from '@/styles/tranformations';
+import { iconToNode } from '@/styles/transformations';
 import validations from '@/utils/regex';
 import {
   EmailTwoTone,
@@ -10,7 +11,7 @@ import {
   KeyTwoTone,
   LinkedIn,
 } from '@mui/icons-material';
-import { Box, Button, IconButton, Typography } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import React, { useState } from 'react';
 
 const federatedOptions = [
@@ -44,9 +45,13 @@ const LoginPage = () => {
     setPassword(event.target.value);
   };
 
+  const isFormValid = () =>
+    validations.email(email) && validations.password(password);
+
   return (
     <Box
       p={3}
+      m={3}
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -65,7 +70,6 @@ const LoginPage = () => {
           aria: 'login-email-field',
         }}
       />
-
       <CTextField
         value={password}
         label="Password"
@@ -79,16 +83,19 @@ const LoginPage = () => {
         }}
       />
 
-      <Button>Sign In</Button>
-
+      <CButton
+        label="Sign In"
+        disabled={!isFormValid()}
+        onClick={console.log}
+        my={0.5}
+      />
       <CDivider chip content="Or continue with" />
-
-      {/* <Typography>Or continue with</Typography> */}
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'center',
         }}
+        mt={2}
       >
         {federatedOptions.map(({ icon, color }, index) => (
           <IconButton

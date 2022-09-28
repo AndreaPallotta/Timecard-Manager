@@ -1,21 +1,21 @@
-import { Divider, Chip, Typography } from '@mui/material';
+import { Chip, Divider, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 const CDivider = (props) => {
-  const { content, chip, align, orientation, noFlex } = props;
+  const { align, chip, content, my, noFlex, orientation, sx = {} } = props;
 
   return (
     <Divider
       textAlign={align || 'center'}
       orientation={orientation || 'horizontal'}
       flexItem={noFlex === true ? false : true}
+      sx={{
+        marginY: my ? `${my}rem` : '1rem',
+        ...sx,
+      }}
     >
-      {chip ? (
-        <Chip label={content} />
-      ) : (
-        <Typography variant="body2">{content}</Typography>
-      )}
+      {chip ? <Chip label={content} /> : <Typography>{content}</Typography>}
     </Divider>
   );
 };
@@ -26,6 +26,8 @@ CDivider.propTypes = {
   align: PropTypes.oneOf(['left', 'center', 'right']),
   orientation: PropTypes.string,
   noFlex: PropTypes.bool,
+  my: PropTypes.string,
+  sx: PropTypes.object,
 };
 
 export default CDivider;

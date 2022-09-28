@@ -4,6 +4,8 @@ const SignupPage = () => {
   return (
     <>
       <div>SignUp</div>
+      {/* {password.trim() && !validations.password(password) && ( */}
+      {/* )} */}
     </>
   );
 };

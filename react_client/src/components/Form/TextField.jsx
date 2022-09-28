@@ -1,3 +1,4 @@
+import useBoolean from '@/hooks/useBoolean';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
@@ -9,30 +10,24 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
-import useBoolean from '@/hooks/useBoolean';
 
-// TODO: Fix password toggle
 const CTextField = (props) => {
   const {
+    end,
+    error,
+    focusFirst,
     label,
-    value,
     onChange,
     password,
-    type,
-    required,
     readOnly,
-    error,
+    required,
     start,
-    end,
-    focusFirst,
+    type,
+    value,
     ...other
   } = props;
 
   const [showPassword, toggleShowPassword] = useBoolean(true);
-
-  // const toggleShowPassword = (event) => {
-  //   setShowPassword((prevState) => !prevState);
-  // };
 
   const prevDefault = (event) => {
     event.preventDefault();
@@ -108,22 +103,6 @@ const CTextField = (props) => {
 };
 
 CTextField.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  password: PropTypes.bool,
-  type: PropTypes.string,
-  required: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  error: PropTypes.bool,
-  start: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.exact({
-      icon: PropTypes.element.isRequired,
-      onClick: PropTypes.func,
-      aria: PropTypes.string,
-    }),
-  ]),
   end: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.exact({
@@ -132,7 +111,23 @@ CTextField.propTypes = {
       aria: PropTypes.string,
     }),
   ]),
+  error: PropTypes.bool,
   focusFirst: PropTypes.bool,
+  label: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  password: PropTypes.bool,
+  readOnly: PropTypes.bool,
+  required: PropTypes.bool,
+  type: PropTypes.string,
+  start: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.exact({
+      icon: PropTypes.element.isRequired,
+      onClick: PropTypes.func,
+      aria: PropTypes.string,
+    }),
+  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default CTextField;

@@ -1,11 +1,15 @@
 import CButton from '@/components/Form/Button';
 import CTextField from '@/components/Form/TextField';
 import PasswordValidator from '@/components/PasswordValidator';
+import useNotification from '@/hooks/useNotification';
+import { api } from '@/services/ApiHandler';
+import routes from '@/services/Routes';
 import validations from '@/utils/regex';
 import { isFormValid } from '@/utils/validation';
 import { EmailTwoTone, KeyTwoTone } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SignupPage = () => {
   const [form, setForm] = useState({
@@ -15,6 +19,8 @@ const SignupPage = () => {
     password: '',
     confirmPassword: '',
   });
+  const [showNotification] = useNotification();
+  const navigate = useNavigate();
 
   const fieldValidations = {
     firstName: form.firstName.trim().length > 0,
@@ -32,6 +38,15 @@ const SignupPage = () => {
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const handleSignup = async () => {
+    try {
+      await api.post('/auth/signup', form);
+      navigate(routes.home);
+    } catch (err) {
+      showNotification(err.message, 'error');
+    }
   };
 
   return (
@@ -113,7 +128,7 @@ const SignupPage = () => {
       <CButton
         label="Sign Up"
         disabled={!isFormValid(fieldValidations)}
-        onClick={console.log}
+        onClick={handleSignup}
         my={0.5}
       />
     </Box>

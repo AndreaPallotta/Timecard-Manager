@@ -23,10 +23,10 @@ exports.login = async (req, res) => {
     }
 };
 
-exports.signUp = async (req, res) => {
+exports.signup = async (req, res) => {
     return res.json({});
 };
 
-exports.signOut = async (req, res) => {
+exports.signout = async (req, res) => {
     return res.json({});
 };

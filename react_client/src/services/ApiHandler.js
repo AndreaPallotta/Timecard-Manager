@@ -1,29 +1,38 @@
 import ApiFormatter from '@/services/apiFormatter';
+import axios from 'axios';
 
 class ApiHandler {
-  static async get(endpoint, contentType) {
+  static async get(endpoint, params, contentType) {
     const formattedEndpoint = ApiFormatter.formatEndpoint(endpoint);
+    const headers = ApiFormatter.getHeaders(contentType);
+
     try {
-      const req = ApiFormatter.formatFetch('GET', undefined, contentType);
-      const res = await fetch(formattedEndpoint, req);
-      const data = await res.json();
-      ApiFormatter.handleError(res, data);
+      const { data } = await axios.post(
+        formattedEndpoint,
+        { params },
+        { headers }
+      );
+      if (!data) {
+        throw new Error('Response body is empty');
+      }
       return data;
     } catch (err) {
-      return { ErrorMsg: err };
+      throw new Error(`${err.response.data.error || err.message}`);
     }
   }
 
-  static async post(endpoint, body, contentType) {
+  static async post(endpoint, params, contentType) {
     const formattedEndpoint = ApiFormatter.formatEndpoint(endpoint);
+    const headers = ApiFormatter.getHeaders(contentType);
+
     try {
-      const req = ApiFormatter.formatFetch('POST', body, contentType);
-      const res = await fetch(formattedEndpoint, req);
-      const data = await res.json();
-      ApiFormatter.handleError(res, data);
+      const { data } = await axios.post(formattedEndpoint, params, { headers });
+      if (!data) {
+        throw new Error('Response body is empty');
+      }
       return data;
     } catch (err) {
-      return { ErrorMsg: err };
+      throw new Error(`${err.response.data.error || err.message}`);
     }
   }
 }

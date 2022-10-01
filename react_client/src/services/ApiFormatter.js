@@ -1,5 +1,4 @@
 import { app, server } from '@/utils/env';
-import { nullSafe } from '@/utils/validation';
 
 class ApiFormatter {
   static getHeaders(contentType = 'application/json') {
@@ -30,27 +29,6 @@ class ApiFormatter {
     }
 
     return `${app.prefix}/${server.host}:${server.port}${endpoint}`;
-  }
-
-  static handleError(res, data) {
-    if (!res.ok || !nullSafe(data)) {
-      throw new Error(`(${res.status}) ${data?.Error || res.statusText}`);
-    }
-  }
-
-  static formatFetch(method, body, contentType) {
-    const headers = ApiFormatter.getHeaders(contentType);
-
-    if (method === 'GET') {
-      return { headers };
-    }
-
-    try {
-      body = JSON.stringify(body);
-      return { headers, method, body };
-    } catch (err) {
-      throw new Error('400: Request Body Invalid');
-    }
   }
 }
 

@@ -1,5 +1,4 @@
 const { validationResult } = require('express-validator');
-const HTTPError = require('@errors/HTTPError');
 
 module.exports = (validations) => {
     return async (req, res, next) => {
@@ -11,6 +10,8 @@ module.exports = (validations) => {
 
         if (errors.isEmpty()) return next();
 
-        return HTTPError.Err(404, `Invalid Fields - ${errors.array()}`, res);
+        return res
+            .status(404)
+            .json({ error: `Invalid Fields - ${errors.array().toString()}` });
     };
 };

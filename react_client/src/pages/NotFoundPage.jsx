@@ -1,3 +1,4 @@
+import routes from '@/services/Routes';
 import { Box, Button, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
@@ -32,7 +33,7 @@ const NotFound = () => {
               sx={{ marginTop: '1rem' }}
               variant='contained'
               onClick={() => {
-                navigate('/');
+                navigate(routes.home);
               }}
             >
               Go to Homepage

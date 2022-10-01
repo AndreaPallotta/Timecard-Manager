@@ -1,7 +1,9 @@
 import CButton from '@/components/Form/Button';
 import CDivider from '@/components/Form/Divider';
 import CTextField from '@/components/Form/TextField';
+import useNotification from '@/hooks/useNotification';
 import { api } from '@/services/ApiHandler';
+import routes from '@/services/Routes';
 import { iconToNode } from '@/styles/transformations';
 import validations from '@/utils/regex';
 import { isFormValid } from '@/utils/validation';
@@ -15,6 +17,7 @@ import {
 } from '@mui/icons-material';
 import { Box, IconButton } from '@mui/material';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const federatedOptions = [
   {
@@ -38,6 +41,8 @@ const federatedOptions = [
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showNotification] = useNotification();
+  const navigate = useNavigate();
 
   const fieldValidations = {
     email: validations.email(email),
@@ -53,8 +58,12 @@ const LoginPage = () => {
   };
 
   const handleLogin = async () => {
-    const res = await api.post('/auth/login', { email, password });
-    console.log('res', res);
+    try {
+      await api.post('/auth/login', { email, password });
+      navigate(routes.home);
+    } catch (err) {
+      showNotification(err.message, 'error');
+    }
   };
 
   return (

@@ -1,6 +1,7 @@
 import CButton from '@/components/Form/Button';
 import CDivider from '@/components/Form/Divider';
 import CTextField from '@/components/Form/TextField';
+import { api } from '@/services/ApiHandler';
 import { iconToNode } from '@/styles/transformations';
 import validations from '@/utils/regex';
 import { isFormValid } from '@/utils/validation';
@@ -51,6 +52,11 @@ const LoginPage = () => {
     setPassword(event.target.value);
   };
 
+  const handleLogin = async () => {
+    const res = await api.post('/auth/login', { email, password });
+    console.log('res', res);
+  };
+
   return (
     <Box
       p={3}
@@ -89,7 +95,7 @@ const LoginPage = () => {
       <CButton
         label="Sign In"
         disabled={!isFormValid(fieldValidations)}
-        onClick={console.log}
+        onClick={handleLogin}
         my={0.5}
       />
       <CDivider chip content="Or continue with" />

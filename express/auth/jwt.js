@@ -3,36 +3,12 @@ const { JWT_SECRET } = require('@utils/env.config');
 const Logger = require('@log/logger');
 const HTTPError = require('@errors/HTTPError');
 
-const generateJWTExpiration = (time = 6, format = 'h') => {
-    switch (format) {
-        case 'h':
-            time = time * 3600;
-            break;
-        case 'm':
-            time = time * 60;
-            break;
-        case 's':
-            break;
-        default:
-            Logger.error('Invalid JWT Expiration Format');
-            return;
-    }
-    if (time > 43200) {
-        Logger.error('JWT Expiration is maxed at 12 hours');
-        return;
-    }
-
-    return `${time}s`;
-};
-
-const generateAuthJWT = (email, time, format) => {
+const generateAuthJWT = (email) => {
     if (!JWT_SECRET) {
         Logger.error('Generating JWTs requires Secret');
         return;
     }
-    const token = jwt.sign(email, JWT_SECRET, {
-        expiresIn: generateJWTExpiration(time, format),
-    });
+    const token = jwt.sign(email, JWT_SECRET);
     Logger.debug(`New auth token generated for ${email}: ${token}`);
     return token;
 };

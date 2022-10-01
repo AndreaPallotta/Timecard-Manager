@@ -28,4 +28,4 @@ class ApiHandler {
   }
 }
 
-export default { get: ApiHandler.get, post: ApiHandler.post };
+export const api = { get: ApiHandler.get, post: ApiHandler.post };

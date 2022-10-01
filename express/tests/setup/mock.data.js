@@ -7,7 +7,7 @@ const login = {
 
 const loginAlwaysTrue = {
     email: 'root@root.root',
-    password: '$2b$10$AqB2EY3pzCpCqXrpPx.zTOeSPip.eooMBLchLtPi.N9vd5dUwC3qm',
+    password: 'root',
 };
 
 const signup = {

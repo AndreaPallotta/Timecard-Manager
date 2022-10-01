@@ -71,7 +71,7 @@ const CTextField = (props) => {
   };
 
   return (
-    <FormControl fullWidth sx={{ marginBottom: '1.5rem' }}>
+    <FormControl fullWidth sx={{ marginBottom: '1.75rem' }}>
       <InputLabel htmlFor={`c-text-field-${label}}`}>{label}</InputLabel>
       <OutlinedInput
         autoFocus={focusFirst || false}

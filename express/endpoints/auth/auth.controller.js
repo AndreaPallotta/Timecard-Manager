@@ -1,27 +1,24 @@
 const Logger = require('@log/logger');
 const HTTPError = require('@errors/HTTPError');
 const { newTokens } = require('@auth/jwt');
-const prisma = require('@root/prisma.client');
+const { getUser } = require('@queries/auth.queries');
 
 exports.login = async (req, res) => {
     Logger.info(req.body);
 
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-        return HTTPError.Err(400, 'Email and/or Password invalid.');
-    }
-
     try {
-        const { authToken, refreshToken } = newTokens(email);
+        const user = await getUser(req.body);
+
+        if (!user) {
+            throw new Error('Email and/or password are wrong');
+        }
+        const { authToken, refreshToken } = newTokens(req.body.email);
         if (!authToken || !refreshToken) {
             throw new Error('Failed to generate JWTs');
         }
-        const user = await prisma.user.findMany();
-        console.log(user);
         return res.json({});
     } catch (err) {
-        return HTTPError.Err(res, err);
+        HTTPError.Err(res, err);
     }
 };
 

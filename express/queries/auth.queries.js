@@ -14,7 +14,8 @@ const checkUserExists = async ({ email }) => {
 
 const getUser = async ({ email, password }) => {
     try {
-        return await prisma.user.findUnique({
+        // return await prisma.user.findMany();
+        return await prisma.user.findFirst({
             where: { email, password: await hashPassword(password) },
         });
     } catch (err) {

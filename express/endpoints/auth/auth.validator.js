@@ -22,3 +22,7 @@ exports.signupValidation = validate([
         minUppercase: 1,
     }),
 ]);
+
+exports.signoutValidation = validate([
+    body('email', 'Invalid email').isEmail(),
+]);

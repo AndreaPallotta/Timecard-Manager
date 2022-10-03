@@ -10,15 +10,13 @@ module.exports = (validations) => {
 
         if (errors.isEmpty()) return next();
 
-        console.log(errors.array());
-
         const errorMessages = errors
             .array()
             .filter(({ msg }) => msg !== undefined)
             .map(({ msg }) => msg);
 
         return res
-            .status(404)
+            .status(400)
             .json({ error: `Invalid Fields - ${errorMessages.join(',')}` });
     };
 };

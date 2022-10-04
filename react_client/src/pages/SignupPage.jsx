@@ -1,6 +1,7 @@
 import CButton from '@/components/Form/Button';
 import CTextField from '@/components/Form/TextField';
 import PasswordValidator from '@/components/PasswordValidator';
+import useBoolean from '@/hooks/useBoolean';
 import useNotification from '@/hooks/useNotification';
 import { api } from '@/services/ApiHandler';
 import routes from '@/services/Routes';
@@ -20,6 +21,7 @@ const SignupPage = () => {
     confirmPassword: '',
   });
   const [showNotification] = useNotification();
+  const [disabled, toggleDisabled] = useBoolean();
   const navigate = useNavigate();
 
   const fieldValidations = {
@@ -42,7 +44,7 @@ const SignupPage = () => {
 
   const handleSignup = async () => {
     try {
-      await api.post('/auth/signup', form);
+      await api.post('/auth/signup', form, toggleDisabled);
       navigate(routes.home);
     } catch (err) {
       showNotification(err.message, 'error');
@@ -127,7 +129,7 @@ const SignupPage = () => {
 
       <CButton
         label="Sign Up"
-        disabled={!isFormValid(fieldValidations)}
+        disabled={!isFormValid(fieldValidations) || disabled}
         onClick={handleSignup}
         my={0.5}
       />

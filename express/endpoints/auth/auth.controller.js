@@ -1,12 +1,13 @@
 const Logger = require('@log/logger');
 const { newTokens } = require('@auth/jwt');
-const { getUser } = require('@queries/auth.queries');
+const { getUser, createUser } = require('@queries/auth.queries');
 
 exports.login = async (req, res) => {
-    Logger.info(req.body);
-
+    console.log('body', req.body);
     try {
-        const user = await getUser(req.body);
+        let user = await getUser(req.body);
+
+        Logger.debug(`User: ${user}`);
 
         if (!user) {
             return res
@@ -15,18 +16,36 @@ exports.login = async (req, res) => {
         }
         const { authToken, refreshToken } = newTokens(req.body.email);
         if (!authToken || !refreshToken) {
+            Logger.error('Failed to generate JWTs');
             return res.status(500).send({ error: 'Failed to generate JWTs' });
         }
-        return res.json({});
+        user = { ...user, authToken, refreshToken };
+        Logger.debug(`User signed in: ${user}`);
+        return res.send(user);
     } catch (err) {
+        Logger.error(`Error during signin: ${err.message}`);
         return res.status(500).send({ error: err.message });
     }
 };
 
 exports.signup = async (req, res) => {
-    return res.json({});
+    try {
+        let user = await createUser(req.body);
+
+        const { authToken, refreshToken } = newTokens(req.body.email);
+        if (!authToken || !refreshToken) {
+            Logger.error('Failed to generate JWTs');
+            return res.status(500).send({ error: 'Failed to generate JWTs' });
+        }
+        user = { ...user, authToken, refreshToken };
+        Logger.debug(`User signed in: ${user}`);
+        return res.send(user);
+    } catch (err) {
+        Logger.error(`Error during signup: ${err.message}`);
+        return res.status(500).send({ error: err.message });
+    }
 };
 
 exports.signout = async (req, res) => {
-    return res.json({});
+    return res.send({});
 };

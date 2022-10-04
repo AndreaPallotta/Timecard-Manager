@@ -1,6 +1,7 @@
 import CButton from '@/components/Form/Button';
 import CDivider from '@/components/Form/Divider';
 import CTextField from '@/components/Form/TextField';
+import useBoolean from '@/hooks/useBoolean';
 import useNotification from '@/hooks/useNotification';
 import { api } from '@/services/ApiHandler';
 import routes from '@/services/Routes';
@@ -42,6 +43,8 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showNotification] = useNotification();
+  const [disabled, toggleDisabled] = useBoolean();
+
   const navigate = useNavigate();
 
   const fieldValidations = {
@@ -59,7 +62,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      await api.post('/auth/login', { email, password });
+      await api.post('/auth/login', { email, password }, toggleDisabled);
       navigate(routes.home);
     } catch (err) {
       showNotification(err.message, 'error');
@@ -103,7 +106,7 @@ const LoginPage = () => {
 
       <CButton
         label="Sign In"
-        disabled={!isFormValid(fieldValidations)}
+        disabled={!isFormValid(fieldValidations) || disabled}
         onClick={handleLogin}
         my={0.5}
       />

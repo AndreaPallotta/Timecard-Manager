@@ -1,39 +1,54 @@
 const prisma = require('@root/prisma.client');
 const { hashPassword } = require('@utils/hash');
+const bcrypt = require('bcrypt');
 
-const checkUserExists = async ({ email }) => {
+const checkUserExists = async (email) => {
     try {
         const userExists = await prisma.user.count({
             where: { email },
         });
         return userExists > 0;
     } catch {
-        throw new Error(`failed to verify if ${email} exists`);
+        throw new Error(`Failed to verify if ${email} exists`);
     }
 };
 
 const getUser = async ({ email, password }) => {
+    console.log('gtting user');
     try {
-        // return await prisma.user.findMany();
-        return await prisma.user.findFirst({
-            where: { email, password: await hashPassword(password) },
+        const user = await prisma.user.findFirst({
+            where: { email },
+            select: {
+                firstName: true,
+                lastName: true,
+                email: true,
+                authToken: true,
+                refreshToken: true,
+                password: true,
+            },
         });
+        if (!user) return;
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) return;
+
+        return user;
     } catch (err) {
-        throw new Error(`failed to retrieve user: ${err.message}.`);
+        throw new Error(`Failed to retrieve user: ${err.message}.`);
     }
 };
 
 const createUser = async (user) => {
-    const { email, password } = user;
-
     try {
-        if (await checkUserExists(email)) {
-            throw new Error(`${email} already used`);
+        if (await checkUserExists(user.email)) {
+            throw new Error('Email already in use');
         }
-        user.password = await hashPassword(password);
-        return await prisma.user.create({ data: user });
+        const hashedPassword = await hashPassword(user.password);
+        return await prisma.user.create({
+            data: { ...user, password: hashedPassword },
+        });
     } catch (err) {
-        throw new Error(`failed to create user: ${err.message}.`);
+        throw new Error(`Failed to create user: ${err.message}.`);
     }
 };
 

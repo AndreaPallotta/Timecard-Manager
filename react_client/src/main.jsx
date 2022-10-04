@@ -1,17 +1,18 @@
 import App from '@/App';
 import AuthPage from '@/pages/AuthPage';
-import ChildPage from '@/pages/ChildPage';
 import NotFound from '@/pages/NotFoundPage';
 import Routes from '@/services/Routes';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
+import HomePage from './pages/HomePage';
+import ManagePage from './pages/ManagePage';
 import ModeEnforcer from './styles/ModeEnforcer';
 
 const router = createBrowserRouter([
   {
-    path: Routes.home,
+    path: Routes.default,
     element: (
       <ModeEnforcer>
         <App />
@@ -24,8 +25,12 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: '/child',
-        element: <ChildPage />,
+        path: '/home',
+        element: <HomePage />,
+      },
+      {
+        path: '/manage',
+        element: <ManagePage />,
       },
     ],
   },

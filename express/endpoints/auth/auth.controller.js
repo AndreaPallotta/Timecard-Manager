@@ -1,6 +1,6 @@
 const Logger = require('@log/logger');
 const { newTokens } = require('@auth/jwt');
-const { getUser, createUser } = require('@queries/auth.queries');
+const { getUser, createUser, removeTokens } = require('@queries/auth.queries');
 
 exports.login = async (req, res) => {
     console.log('body', req.body);
@@ -47,5 +47,11 @@ exports.signup = async (req, res) => {
 };
 
 exports.signout = async (req, res) => {
-    return res.send({});
+    try {
+        await removeTokens(req.body.email);
+        return res.send({});
+    } catch (err) {
+        Logger.error(`Error during signout: ${err.message}`);
+        return res.status(500).send({ error: err.message });
+    }
 };

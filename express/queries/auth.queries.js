@@ -52,7 +52,19 @@ const createUser = async (user) => {
     }
 };
 
+const removeTokens = async (email) => {
+    try {
+        await prisma.user.update({
+            where: { email },
+            data: { authToken: null, refreshToken: null },
+        });
+    } catch (err) {
+        throw new Error(`Failed to remove tokens: ${err.message}.`);
+    }
+}
+
 module.exports = {
     getUser,
     createUser,
+    removeTokens,
 };

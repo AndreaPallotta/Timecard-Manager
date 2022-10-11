@@ -1,27 +1,26 @@
 const Logger = require('@log/logger');
-const { newTokens } = require('@auth/jwt');
+const { newTokens, validateTokensSafe } = require('@auth/jwt');
 const { getUser, createUser, removeTokens } = require('@queries/auth.queries');
 
 exports.login = async (req, res) => {
-    console.log('body', req.body);
     try {
         let user = await getUser(req.body);
-
-        Logger.debug(`User: ${user}`);
 
         if (!user) {
             return res
                 .status(404)
                 .send({ error: 'Email and/or password are wrong' });
         }
-        const { authToken, refreshToken } = newTokens(req.body.email);
-        if (!authToken || !refreshToken) {
+
+        const userWithTokens = validateTokensSafe(user);
+
+        if (!userWithTokens) {
             Logger.error('Failed to generate JWTs');
             return res.status(500).send({ error: 'Failed to generate JWTs' });
         }
-        user = { ...user, authToken, refreshToken };
-        Logger.debug(`User signed in: ${user}`);
-        return res.send(user);
+
+        Logger.debug(`User signed in: ${userWithTokens.email}`);
+        return res.send(userWithTokens);
     } catch (err) {
         Logger.error(`Error during signin: ${err.message}`);
         return res.status(500).send({ error: err.message });
@@ -30,16 +29,17 @@ exports.login = async (req, res) => {
 
 exports.signup = async (req, res) => {
     try {
-        let user = await createUser(req.body);
-
-        const { authToken, refreshToken } = newTokens(req.body.email);
-        if (!authToken || !refreshToken) {
+        const tokens = newTokens(req.body.email);
+        if (!tokens.authToken || !tokens.refreshToken) {
             Logger.error('Failed to generate JWTs');
             return res.status(500).send({ error: 'Failed to generate JWTs' });
         }
-        user = { ...user, authToken, refreshToken };
-        Logger.debug(`User signed in: ${user}`);
-        return res.send(user);
+
+        const user = await createUser({ ...req.body, ...tokens });
+
+        if (!user) {
+            return res.status(404).send({ error: 'Failed to create user' });
+        }
     } catch (err) {
         Logger.error(`Error during signup: ${err.message}`);
         return res.status(500).send({ error: err.message });

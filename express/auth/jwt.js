@@ -63,7 +63,27 @@ const validateJWT = (req, res, next) => {
     });
 };
 
+const validateTokensSafe = (user) => {
+    try {
+        const tokens = generateBothJWT(user.email);
+        if (!user.authToken || !user.refreshToken) {
+            user = { ...user, ...tokens };
+        } else {
+            jwt.verify(user.authToken, JWT_SECRET, (err, user) => {
+                if (err || !user) {
+                    user = { ...user, tokens };
+                }
+            });
+        }
+    } catch {
+        return;
+    }
+
+    return user;
+};
+
 exports.newAuthToken = generateAuthJWT;
 exports.newRefreshToken = generateRefreshJWT;
 exports.newTokens = generateBothJWT;
 exports.validateToken = validateJWT;
+exports.validateTokensSafe = validateTokensSafe;

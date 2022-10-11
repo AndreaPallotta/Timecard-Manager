@@ -18,8 +18,8 @@ const SignupPage = () => {
     lastName: '',
     email: '',
     password: '',
-    confirmPassword: '',
   });
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showNotification] = useNotification();
   const [disabled, toggleDisabled] = useBoolean();
   const navigate = useNavigate();
@@ -30,8 +30,8 @@ const SignupPage = () => {
     email: validations.email(form.email),
     password: validations.password(form.password),
     confirm:
-      validations.password(form.confirmPassword) &&
-      form.confirmPassword === form.password,
+      validations.password(confirmPassword) &&
+      confirmPassword === form.password,
   };
 
   const handleFormChange = (event) => {
@@ -41,6 +41,10 @@ const SignupPage = () => {
       [name]: value,
     }));
   };
+
+  const handleConfirmPasswordChange = (event) => {
+    setConfirmPassword(event.target.value);
+  }
 
   const handleSignup = async () => {
     try {
@@ -111,9 +115,9 @@ const SignupPage = () => {
       />
 
       <CTextField
-        value={form.confirmPassword}
+        value={confirmPassword}
         label="Confirm Password"
-        onChange={handleFormChange}
+        onChange={handleConfirmPasswordChange}
         required
         error={!fieldValidations.confirm}
         password

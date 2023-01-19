@@ -55,3 +55,5 @@ exports.signout = async (req, res) => {
         return res.status(500).send({ error: err.message });
     }
 };
+
+// Function to hash password with bcrypt
